@@ -1,0 +1,29 @@
+####################
+# BBC micro:bit V2 #
+####################
+microbit_v2.name=BBC micro:bit V2
+
+microbit_v2.vid.0=0x0d28
+microbit_v2.pid.0=0x0204
+
+microbit_v2.build.mcu=cortex-m4
+microbit_v2.build.f_cpu=64000000
+microbit_v2.build.board=BBC_MICROBIT_V2
+microbit_v2.build.core=microbit
+microbit_v2.build.variant=bbcmicrobitv2
+
+
+####################
+# BBC micro:bit V2 #
+####################
+# This one will likely not work for a while
+microbit_v1.name=BBC micro:bit V1
+
+microbit_v1.vid.0=0x0d28
+microbit_v1.pid.0=0x0204
+
+microbit_v1.build.mcu=cortex-m0plus
+microbit_v1.build.f_cpu=16000000
+microbit_v1.build.board=BBC_MICROBIT_V1
+microbit_v1.build.core=microbit
+microbit_v1.build.variant=bbcmicrobitv1

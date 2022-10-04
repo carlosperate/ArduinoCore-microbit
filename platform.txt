@@ -1,0 +1,6 @@
+name=BBC micro:bit boards
+version=0.0.1
+
+build.test.command=python --version
+
+recipe.preproc.macros={build.test.command}

@@ -1,0 +1,43 @@
+{
+  "packages": [
+    {
+      "name": "BBC micro:bit Package",
+      "maintainer": "Carlos Pereira Atencio",
+      "websiteURL": "https://carlosperate.github.io/ArduinoCore-microbit",
+      "email": "carlosperate@embeddedlog.com",
+      "help": {
+        "online": "https://carlosperate.github.io/ArduinoCore-microbit/docs"
+      },
+      "platforms": [
+        {
+          "name": "BBC micro:bit boards",
+          "architecture": "micro:bit",
+          "version": "0.0.1",
+          "category": "Contributed",
+          "url": "https://github.com/carlosperate/ArduinoCore-microbit/releases/download/v0.0.01/ArduinoCore-microbit-v0.0.1.zip",
+          "archiveFileName": "ArduinoCore-microbit-v0.0.1.zip",
+          "checksum": "SHA-256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "size": "12341234",
+          "boards": [
+            {
+              "name": "micro:bit V2"
+            }
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "arm-none-eabi-gcc",
+              "version": "7-2017q4"
+            },
+            {
+              "packager": "arduino",
+              "name": "openocd",
+              "version": "0.11.0-arduino2"
+            }
+          ]
+        }
+      ],
+      "tools": []
+    }
+  ]
+}
