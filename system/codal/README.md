@@ -1,3 +1,17 @@
+# CODAL project modified for this Arduino Core
+
+From commit `a38d392c3ff032273663ace9e4aa4ede95f7c220` on 27th Sep 2022:
+- https://github.com/lancaster-university/microbit-v2-samples/commit/a38d392c3ff032273663ace9e4aa4ede95f7c220
+
+Files have been removed as shown in commit `ab0aaff2e8f8848c73d8376702f469d5479aa20c`:
+- https://github.com/carlosperate/ArduinoCore-microbit/commit/ab0aaff2e8f8848c73d8376702f469d5479aa20c
+
+The modifications that had to be made are listed in the dev docs: `/docs/dev.md`
+
+## The rest of the README is the original
+
+--------------------------------------------------------------------------------
+
 # microbit-v2-samples
 
 [![Native Build Status](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/build.yml/badge.svg)](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/build.yml) [![Docker Build Status](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/docker-image.yml/badge.svg)](https://github.com/lancaster-university/microbit-v2-samples/actions/workflows/docker-image.yml)

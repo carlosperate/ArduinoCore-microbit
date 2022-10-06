@@ -81,16 +81,18 @@ SET(CODAL_OUTPUT_NAME ${device.device})
 SET(CODAL_TARGET_PROCESSOR ${device.processor})
 SET(CODAL_TARGET_CPU_ARCHITECTURE ${device.architecture})
 
+# TODO: (Arduino Core Edit) Don't create "samples" nor "source" folder, don't copy a samples file
 # if this is the first build, lets copy a sample main.cpp from the target if available.
-if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/${CODAL_APP_SOURCE_DIR} AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/main.cpp)
-    FILE(COPY ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/main.cpp DESTINATION ${CMAKE_CURRENT_LIST_DIR}/${CODAL_APP_SOURCE_DIR})
-endif()
+#if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/${CODAL_APP_SOURCE_DIR} AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/main.cpp)
+#    FILE(COPY ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/main.cpp DESTINATION ${CMAKE_CURRENT_LIST_DIR}/${CODAL_APP_SOURCE_DIR})
+#endif()
 
 #copy samples and remove main.cpp
-if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/samples AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/)
-    FILE(COPY ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples DESTINATION ${CMAKE_CURRENT_LIST_DIR})
-    FILE(REMOVE ${CMAKE_CURRENT_LIST_DIR}/samples/main.cpp)
-endif()
+#if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/samples AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/)
+#    FILE(COPY ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples DESTINATION ${CMAKE_CURRENT_LIST_DIR})
+#    FILE(REMOVE ${CMAKE_CURRENT_LIST_DIR}/samples/main.cpp)
+#endif()
+# TODO: (end of Arduino Core Edit)
 
 ####################
 
@@ -108,11 +110,15 @@ enable_language(ASM)
 include(${TOOLCHAIN_FOLDER}/compiler-flags.cmake)
 set(PLATFORM_INCLUDES_PATH "${PROJECT_SOURCE_DIR}/utils/cmake/toolchains/${device.toolchain}")
 
-file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
+# TODO: (Arduino Core Edit) Don't create the codal/build folder, and place all files into the CMake build output directory
+#file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
 
 # configure output directories
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/build")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/build")
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+# TODO: (end of Arduino Core Edit)
 
 SET(CODAL_DEFINITIONS "")
 
@@ -177,8 +183,12 @@ endif()
 
 # create a header file from the definitions specified in JSON
 if("${CODAL_DEFINITIONS}" STRGREATER "")
-    set(EXTRA_INCLUDES_NEW_PATH "${PROJECT_SOURCE_DIR}/build/codal_extra_definitions_new.h")
-    set(EXTRA_INCLUDES_PATH "${PROJECT_SOURCE_DIR}/build/codal_extra_definitions.h")
+    # TODO: (Arduino Core Edit) Place header files in the output build directory 
+    #set(EXTRA_INCLUDES_NEW_PATH "${PROJECT_SOURCE_DIR}/build/codal_extra_definitions_new.h")
+    #set(EXTRA_INCLUDES_PATH "${PROJECT_SOURCE_DIR}/build/codal_extra_definitions.h")
+    set(EXTRA_INCLUDES_NEW_PATH "${CMAKE_BINARY_DIR}/codal_extra_definitions_new.h")
+    set(EXTRA_INCLUDES_PATH "${CMAKE_BINARY_DIR}/codal_extra_definitions.h")
+    # TODO: (end of Arduino Core Edit)
     file(WRITE "${EXTRA_INCLUDES_NEW_PATH}" ${CODAL_DEFINITIONS})
     configure_file(${EXTRA_INCLUDES_NEW_PATH} ${EXTRA_INCLUDES_PATH} COPYONLY)
 
@@ -239,6 +249,19 @@ RECURSIVE_FIND_FILE(S_FILES "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.s
 RECURSIVE_FIND_FILE(C_FILES "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.c")
 list(APPEND SOURCE_FILES ${S_FILES})
 list(APPEND SOURCE_FILES ${C_FILES})
+
+# TODO: (Arduino Core Edit) Add Arduino files to the build from CLI set values
+if("${ARDUINO_SKETCH}" STRGREATER "")
+    RECURSIVE_FIND_FILE(ARDUINO_SKETCH_FILES "${ARDUINO_SKETCH}" "*.cpp")
+    list(APPEND SOURCE_FILES ${ARDUINO_SKETCH_FILES})
+    list(APPEND INCLUDE_DIRS ${ARDUINO_SKETCH})
+endif()
+if("${ARDUINO_LIBRARIES}" STRGREATER "")
+    RECURSIVE_FIND_FILE(ARDUINO_LIBS_FILES "${ARDUINO_LIBRARIES}" "*.cpp")
+    list(APPEND SOURCE_FILES ${ARDUINO_LIBS_FILES})
+    list(APPEND INCLUDE_DIRS ${ARDUINO_LIBRARIES})
+endif()
+# TODO: (end of Arduino Core Edit)
 
 if("${SOURCE_FILES}" STREQUAL "")
     message(FATAL_ERROR "${BoldRed}No user application to build, please add a main.cpp at: ${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}${ColourReset}")
