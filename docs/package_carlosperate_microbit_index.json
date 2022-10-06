@@ -1,7 +1,7 @@
 {
   "packages": [
     {
-      "name": "BBC micro:bit Package",
+      "name": "microbit",
       "maintainer": "Carlos Pereira Atencio",
       "websiteURL": "https://carlosperate.github.io/ArduinoCore-microbit",
       "email": "carlosperate@embeddedlog.com",
