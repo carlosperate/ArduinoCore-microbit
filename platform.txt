@@ -1,6 +1,74 @@
 name=BBC micro:bit boards
 version=0.0.1
 
-build.test.command=python --version
+#######################################
+# Extra flags that can be overwritten #
+#######################################
+# Can be overwritten in boards.txt
+build.extra_flags=
 
-recipe.preproc.macros={build.test.command}
+# Can be overwritten in a platform.local.txt file
+# https://arduino.github.io/arduino-cli/0.27/platform-specification/?utm_source=pocket_mylist#platformlocaltxt
+compiler.c.extra_flags=
+compiler.cpp.extra_flags=
+compiler.S.extra_flags=
+
+##########################
+# Compiler configuration #
+##########################
+compiler.path={runtime.tools.arm-none-eabi-gcc-7-2017q4.path}/bin/
+
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.cpp.flags=
+
+compiler.ar.cmd=arm-none-eabi-ar
+
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.c.flags=
+
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.S.flags=
+
+compiler.c.elf.cmd=arm-none-eabi-gcc
+compiler.c.elf.flags=
+
+compiler.objcopy.cmd=arm-none-eabi-objcopy
+
+##########
+# Recipe #
+##########
+# Capture all the CODAL include directories, so that it can be included by the preprocessor
+compiler.codal.flags=-DNRF52833_XXAA
+compiler.codal.includes_microbit_v2="-I{build.system.path}/codal/libraries/codal-microbit-v2/inc" "-I{build.system.path}/codal/libraries/codal-microbit-v2/inc/compat/" "-I{build.system.path}/codal/libraries/codal-microbit-v2/model" "-I{build.system.path}/codal/libraries/codal-microbit-v2/inc/bluetooth/"
+compiler.codal.includes_core="-I{build.system.path}/codal/libraries/codal-core/inc/core" "-I{build.system.path}/codal/libraries/codal-core/inc/driver-models" "-I{build.system.path}/codal/libraries/codal-core/inc/drivers" "-I{build.system.path}/codal/libraries/codal-core/inc/streams" "-I{build.system.path}/codal/libraries/codal-core/inc/types"
+compiler.codal.includes_nrf52="-I{build.system.path}/codal/libraries/codal-nrf52/inc/" "-I{build.system.path}/codal/libraries/codal-nrf52/inc/cmsis"
+compiler.codal.includes_nrfx="-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/mdk/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/templates/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/templates/nRF52833/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/drivers/include" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/drivers/src"
+compiler.codal.includes_codal="-I{build.system.path}/codal/utils/cmake/toolchains/ARM_GCC/" "-I{build.system.path}/codal/libraries/" -include "{build.path}/codal/codal_extra_definitions_new.h" -include "{build.path}/codal/codal_extra_definitions.h"
+compiler.codal.includes={compiler.codal.includes_codal} {compiler.codal.includes_core} {compiler.codal.includes_nrfx} {compiler.codal.includes_nrf52} {compiler.codal.includes_microbit_v2}
+
+# The preoprocesor runs first to generate function prototypes, convert the ino to a cpp file, etc
+# https://arduino.github.io/arduino-cli/0.27/platform-specification/?utm_source=pocket_mylist#recipe-to-run-the-preprocessor
+# If recipe.preproc.macros is not defined, it is automatically generated from recipe.cpp.o.pattern.
+preproc.macros.flags={compiler.codal.includes} {compiler.codal.flags} -mcpu={build.mcu} -mthumb -c {compiler.warning_flags} -std=gnu++11 -ffunction-sections -fdata-sections -nostdlib  -fno-rtti -fno-exceptions
+recipe.preproc.macros= "{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version}  -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags}                                          {includes} "{source_file}" -o "{preprocessed_file_path}"
+
+# We don't compile with the Arduino build system, we'll use CMake in a hook later on
+recipe.c.o.pattern=echo "recipe.c.o.pattern"
+recipe.cpp.o.pattern=echo "recipe.cpp.o.pattern"
+recipe.S.o.pattern=echo "recipe.S.o.pattern"
+recipe.ar.pattern=echo "recipe.ar.pattern"
+
+recipe.c.combine.pattern=echo "recipe.c.combine.pattern"
+
+# First create the build files before the Arduino build system starts preprocessing
+# This is to ensure codal_extra_definitions.h and codal_extra_definitions_new.h are created
+recipe.hooks.prebuild.1.pattern=cmake -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
+# The first time the Arduino files were not yet placed in the build folder by the preprocesor,
+# so run it again at linking stage adding via CLI the paths to the newly created files
+recipe.hooks.linking.postlink.1.pattern=cmake -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo "-DARDUINO_SKETCH={build.path}/sketch" "-DARDUINO_LIBRARIES={build.path}/libraries" -G "Ninja"
+# And then do the real compilation as a second post link hook
+recipe.hooks.linking.postlink.2.pattern=ninja -C "{build.path}/codal/"
+
+# Now that CMake has built everything, create the hex and bin files from the ELF file
+recipe.objcopy.bin.pattern={compiler.objcopy.cmd} -O binary "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.bin"
+recipe.objcopy.hex.pattern={compiler.objcopy.cmd} -O ihex  "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.hex"

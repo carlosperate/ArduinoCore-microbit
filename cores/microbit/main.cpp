@@ -1,6 +1,10 @@
-#include <Arduino.h>
+#include "Arduino.h"
+
+MicroBit uBit;
 
 int main(void) {
+  uBit.init();
+
   setup();
 
   for (;;) {
