@@ -12,9 +12,20 @@ microbit_v2.build.board=BBC_MICROBIT_V2
 microbit_v2.build.core=microbit
 microbit_v2.build.variant=bbcmicrobitv2
 
+microbit_v2.program.tool=openocd
+microbit_v2.program.tool.default=openocd
+microbit_v2.program.protocol=cmsis-dap
+microbit_v2.program.target=nrf52
+
+microbit_v2.upload.tool=openocd
+microbit_v2.upload.tool.default=openocd
+microbit_v2.upload.protocol=cmsis-dap
+microbit_v2.upload.native_usb=false
+microbit_v2.upload.wait_for_upload_port=false
+microbit_v2.upload.use_1200bps_touch=false
 
 ####################
-# BBC micro:bit V2 #
+# BBC micro:bit V1 #
 ####################
 # This one will likely not work for a while
 microbit_v1.name=BBC micro:bit V1
@@ -27,3 +38,15 @@ microbit_v1.build.f_cpu=16000000
 microbit_v1.build.board=BBC_MICROBIT_V1
 microbit_v1.build.core=microbit
 microbit_v1.build.variant=bbcmicrobitv1
+
+microbit_v1.program.tool=openocd
+microbit_v1.program.tool.default=openocd
+microbit_v1.program.protocol=cmsis-dap
+microbit_v1.program.target=nrf51
+
+microbit_v1.upload.tool=openocd
+microbit_v1.upload.tool.default=openocd
+microbit_v1.upload.protocol=cmsis-dap
+microbit_v1.upload.native_usb=false
+microbit_v1.upload.wait_for_upload_port=false
+microbit_v1.upload.use_1200bps_touch=false

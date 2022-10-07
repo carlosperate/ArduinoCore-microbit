@@ -1,0 +1,7 @@
+cmsis-dap.name=ARM CMSIS-DAP
+cmsis-dap.communication=USB
+cmsis-dap.protocol=cmsis-dap
+cmsis-dap.program.protocol=cmsis-dap
+cmsis-dap.program.tool=openocd
+cmsis-dap.program.tool.default=openocd
+cmsis-dap.program.extra_params=

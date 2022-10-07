@@ -16,6 +16,7 @@ compiler.S.extra_flags=
 ##########################
 # Compiler configuration #
 ##########################
+# Flags are empty as the build is taken care of by the CODAL CMake files
 compiler.path={runtime.tools.arm-none-eabi-gcc-7-2017q4.path}/bin/
 
 compiler.cpp.cmd=arm-none-eabi-g++
@@ -72,3 +73,21 @@ recipe.hooks.linking.postlink.2.pattern=ninja -C "{build.path}/codal/"
 # Now that CMake has built everything, create the hex and bin files from the ELF file
 recipe.objcopy.bin.pattern={compiler.objcopy.cmd} -O binary "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.bin"
 recipe.objcopy.hex.pattern={compiler.objcopy.cmd} -O ihex  "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.hex"
+
+##################
+# OpenOCD Config #
+##################
+tools.openocd.path={runtime.tools.openocd-0.11.0-arduino2.path}
+tools.openocd.cmd=bin/openocd
+tools.openocd.cmd.windows=bin/openocd.exe
+
+tools.openocd.program.params.verbose=-d2
+tools.openocd.program.params.quiet=-d0
+tools.openocd.program.pattern="{path}/{cmd}" {program.verbose} -f interface/{program.protocol}.cfg -c "transport select swd" -f target/{program.target}.cfg -c "init; halt; nrf5 mass_erase; program {{build.path}/{build.project_name}.hex} verify reset; shutdown;"
+
+# For uploading we use OpenOCD with CMSIS-DAP as well, so programmer config
+tools.openocd.upload.pattern="{path}/{cmd}" {program.verbose} -f interface/{upload.protocol}.cfg -c "transport select swd" -f target/{program.target}.cfg -c "init; halt; nrf5 mass_erase; program {{build.path}/{build.project_name}.hex} verify reset; shutdown;"
+
+# There isn't a bootloader to burn, so need to configure these
+tools.openocd.erase.pattern=
+tools.openocd.bootloader.pattern=
