@@ -1,15 +1,20 @@
 #include "Arduino.h"
+#include "microbit_hal.h"
 
+// The micro:bit HAL global instance
 MicroBit uBit;
 
+// Initialise the global instances
+arduino::Uart UART;
+
 int main(void) {
-  uBit.init();
+    uBit.init();
 
-  setup();
+    setup();
 
-  for (;;) {
-    loop();
-  }
+    for (;;) {
+        loop();
+    }
 
-  return 0;
+    return 0;
 }

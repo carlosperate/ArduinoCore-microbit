@@ -28,7 +28,8 @@ and the submodules added in [xxxxxx](xxxxx).
 
 ### Modifications
 
-CODAL modifications applied in commit [xxxx](xxx):
+CODAL modifications applied in commit
+[6b45986fcf748e54e33ca5dad90708cfa4b6c2a6](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6):
 - Changes to `codal.json` to point to source code in `cores/microbit/`
 - Added flag to `codal.json` to be able to ignore more CODAL BLE files
 - Comment out CMake code that created a `samples` folder
@@ -46,6 +47,9 @@ CODAL modifications applied in commit [xxxx](xxx):
   to be applied to be able to compile with the ArduinoCore-API sources.
     - One the changes is the `_GNU_SOURCE` define needed due to:
       https://github.com/arduino/ArduinoCore-API/issues/158
+
+Also removed `api/depcreated/WString.h`, since `api/String.h` has already been
+renamed to `api/WString.h` in [xxxx](xxxx).
 
 Other future changes will also be reflected here.
 

@@ -1,11 +1,13 @@
-#ifndef Arduino_h
-#define Arduino_h
+#pragma once
 
 #include "api/ArduinoAPI.h"
+#include "microbit_hal.h"
+#include "Uart.h"
 
-#include "MicroBit.h"
+// Declare the global objects
+extern arduino::Uart UART;
+#define Serial UART
 
-extern MicroBit uBit;
 
 #ifdef __cplusplus
 extern "C"{
@@ -18,5 +20,3 @@ void loop( void ) ;
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
-#endif // Arduino_h
