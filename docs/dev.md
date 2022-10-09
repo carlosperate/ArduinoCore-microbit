@@ -15,7 +15,12 @@ We had to make some modifications to this project:
   `#include <string.h>`
     - https://github.com/arduino/ArduinoCore-API/issues/37
     - commit [`c8ea3774dbbedbc24f1a5df37cc9b6a6993bf67d`](https://github.com/carlosperate/ArduinoCore-microbit/commit/c8ea3774dbbedbc24f1a5df37cc9b6a6993bf67d)
+- Removed `api/depcreated/WString.h`, since `api/String.h` has already been
+  renamed to `api/WString.h` in
+  [e733d03ed4adff7a15ee31472b779651d06db400](https://github.com/carlosperate/ArduinoCore-microbit/commit/e733d03ed4adff7a15ee31472b779651d06db400).
 
+### Considerations when updating ArduinoCore-API
+- Ensure `String.h` is renamed to `WString.h` and remove `depreacted/WString.h`
 
 ## CODAL
 
@@ -48,14 +53,29 @@ CODAL modifications applied in commit
     - One the changes is the `_GNU_SOURCE` define needed due to:
       https://github.com/arduino/ArduinoCore-API/issues/158
 
-Also removed `api/depcreated/WString.h`, since `api/String.h` has already been
-renamed to `api/WString.h` in [xxxx](xxxx).
-
 Other future changes will also be reflected here.
 
-### Patch
+### Submodule Patch
 
 A patch is needed for the `system/codal/libraries/codal-microbit-v2` submodule.
 
 The instructions to apply it can be found in the
 `system/codal/libraries/README.md` file.
+
+### Considerations when updating CODAL
+
+- Only update the `codal-microbit-v2` submodule to a tag
+    - Update the other submodules to the versions listed in
+      `codal-microbit-v2/blob/master/target-locked.json`.
+    - Check if the patches listed in `system/codal/libraries/README.md` are
+      still applicable, and update the patch if needed
+- The CODAL CMake files from the `microbit-v2-samples` repo can be updated
+  when any upstream changes are relevant to this Arduino Core. 
+    - All the local CMake file changes are surrounded by a
+      `TODO: (Arduino Core Edit)` comment, so make sure those changes are
+       still applied.
+    - We can ignore any changes from all the removed file.
+    - Ensure `codal.json` has the application path to `../../cores/microbit/`
+      folder and set the `DEVICE_BLE` config value to `0`.
+    - This commit right now includes all changes to the original CODAL source:
+      https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6
