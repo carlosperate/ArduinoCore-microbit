@@ -53,6 +53,9 @@ CODAL modifications applied in commit
     - One the changes is the `_GNU_SOURCE` define needed due to:
       https://github.com/arduino/ArduinoCore-API/issues/158
 
+Added in [commit xxxx](xxxx):
+- Add Arduino variant folder path to the CMake file list of h and cpp files.
+
 Other future changes will also be reflected here.
 
 ### Submodule Patch
@@ -70,7 +73,7 @@ The instructions to apply it can be found in the
     - Check if the patches listed in `system/codal/libraries/README.md` are
       still applicable, and update the patch if needed
 - The CODAL CMake files from the `microbit-v2-samples` repo can be updated
-  when any upstream changes are relevant to this Arduino Core. 
+  when any upstream changes are relevant to this Arduino Core.
     - All the local CMake file changes are surrounded by a
       `TODO: (Arduino Core Edit)` comment, so make sure those changes are
        still applied.
