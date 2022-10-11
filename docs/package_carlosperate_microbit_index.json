@@ -1,7 +1,7 @@
 {
   "packages": [
     {
-      "name": "microbit",
+      "name": "carlosperate",
       "maintainer": "Carlos Pereira Atencio",
       "websiteURL": "https://carlosperate.github.io/ArduinoCore-microbit",
       "email": "carlosperate@embeddedlog.com",
@@ -11,16 +11,16 @@
       "platforms": [
         {
           "name": "BBC micro:bit boards",
-          "architecture": "micro:bit",
+          "architecture": "microbit",
           "version": "0.0.1",
           "category": "Contributed",
-          "url": "https://github.com/carlosperate/ArduinoCore-microbit/releases/download/v0.0.01/ArduinoCore-microbit-v0.0.1.zip",
+          "url": "https://www.dropbox.com/s/t4afuiisxhdqxg5/ArduinoCore-microbit.zip?dl=1",
           "archiveFileName": "ArduinoCore-microbit-v0.0.1.zip",
-          "checksum": "SHA-256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-          "size": "12341234",
+          "checksum": "SHA-256:3d48d191ff65bd36da959dbc82e7a52b701e97fd32d5acaee744e7d35e550423",
+          "size": "36423121",
           "boards": [
             {
-              "name": "micro:bit V2"
+              "name": "BBC micro:bit V2"
             }
           ],
           "toolsDependencies": [
@@ -33,11 +33,83 @@
               "packager": "arduino",
               "name": "openocd",
               "version": "0.11.0-arduino2"
+            },
+            {
+              "packager": "carlosperate",
+              "name": "CMake",
+              "version": "3.24.2"
+            },
+            {
+              "packager": "carlosperate",
+              "name": "Ninja",
+              "version": "1.11.1"
             }
           ]
         }
       ],
-      "tools": []
+      "tools": [
+        {
+          "name": "CMake",
+          "version": "3.24.2",
+          "systems": [
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-windows-x86_64.zip",
+              "archiveFileName": "cmake-3.24.2-windows-x86_64.zip",
+              "checksum": "SHA-256:6af30354eecbb7113b0f0142d13c03d21abbc9f4dbdcddaf88df1f9ca1bc4d6f",
+              "size": "40217623"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://github.com/Kitware/CMake/releases/download/v3.23.4/cmake-3.23.4-macos10.10-universal.tar.gz",
+              "archiveFileName": "cmake-3.23.4-macos10.10-universal.tar.gz",
+              "checksum": "SHA-256:77483c7452b9e5d741a7457bd72c648f1e6825d5fe1bee9b1d29e6e36e784939",
+              "size": "70689726"
+            },
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/Kitware/CMake/releases/download/v3.23.4/cmake-3.23.4-linux-x86_64.tar.gz",
+              "archiveFileName": "cmake-3.23.4-linux-x86_64.tar.gz",
+              "checksum": "SHA-256:3fbcbff85043d63a8a83c8bdf8bd5b1b2fd5768f922de7dc4443de7805a2670d",
+              "size": "46021162"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/Kitware/CMake/releases/download/v3.23.4/cmake-3.23.4-linux-aarch64.tar.gz",
+              "archiveFileName": "cmake-3.23.4-linux-aarch64.tar.gz",
+              "checksum": "SHA-256:53fbeda3f597a49c9d3ca8c31f1fd849790994ca607e8739d0ee949c81ae1687",
+              "size": "47464804"
+            }
+          ]
+        },
+        {
+          "name": "Ninja",
+          "version": "1.11.1",
+          "systems": [
+            {
+              "host": "x86_64-mingw32",
+              "url": "https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip",
+              "archiveFileName": "ninja-win.zip",
+              "checksum": "SHA-256:524b344a1a9a55005eaf868d991e090ab8ce07fa109f1820d40e74642e289abc",
+              "size": "285922"
+            },
+            {
+              "host": "x86_64-apple-darwin",
+              "url": "https://www.dropbox.com/s/4huuq7pz8kotrll/ninja-1.11.1-macuniversal.zip?dl=1",
+              "archiveFileName": "ninja-1.11.1-macuniversal.zip",
+              "checksum": "SHA-256:373adc0b1f634216f208c72d842b5d75566f861e7ed75dac32d352cfa8b7aa37",
+              "size": "277522"
+            },
+            {
+              "host": "x86_64-pc-linux-gnu",
+              "url": "https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip",
+              "archiveFileName": "ninja-linux.zip",
+              "checksum": "SHA-256:b901ba96e486dce377f9a070ed4ef3f79deb45f4ffe2938f8e7ddc69cfb3df77",
+              "size": "119463"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

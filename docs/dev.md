@@ -53,7 +53,7 @@ CODAL modifications applied in commit
     - One the changes is the `_GNU_SOURCE` define needed due to:
       https://github.com/arduino/ArduinoCore-API/issues/158
 
-Added in [commit xxxx](xxxx):
+Added in [commit b0104aff56a6925d4ffa8a72a56e53208904442a](https://github.com/carlosperate/ArduinoCore-microbit/commit/b0104aff56a6925d4ffa8a72a56e53208904442a):
 - Add Arduino variant folder path to the CMake file list of h and cpp files.
 
 Other future changes will also be reflected here.
