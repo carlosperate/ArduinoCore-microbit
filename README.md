@@ -67,13 +67,16 @@ https://www.arduino.cc/reference/en/ :
     - `OUTPUT_OPENDRAIN` mode not implemented
 
 ### Analog I/O
-- [ ] `analogRead()`
+- [x] `analogRead()`
 - [ ] `analogReference()`
-- [ ] `analogWrite()`
+    - Empty function for now, will not be implement unless requested/necessary
+- [x] `analogWrite()`
 
 Extra Analog I/O:
 - [ ] `analogReadResolution()`
-- [ ] `analogWriteResolution()` 
+    - Will not be implement unless requested/necessary
+- [NA] `analogWriteResolution()`
+    - There is no DAC, so this function is not applicable
 
 ### Advanced I/O
 - [ ] `noTone()`
