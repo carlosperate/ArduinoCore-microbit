@@ -67,6 +67,13 @@
               "size": "70689726"
             },
             {
+              "host": "arm64-apple-darwin",
+              "url": "https://github.com/Kitware/CMake/releases/download/v3.23.4/cmake-3.23.4-macos10.10-universal.tar.gz",
+              "archiveFileName": "cmake-3.23.4-macos10.10-universal.tar.gz",
+              "checksum": "SHA-256:77483c7452b9e5d741a7457bd72c648f1e6825d5fe1bee9b1d29e6e36e784939",
+              "size": "70689726"
+            },
+            {
               "host": "x86_64-pc-linux-gnu",
               "url": "https://github.com/Kitware/CMake/releases/download/v3.23.4/cmake-3.23.4-linux-x86_64.tar.gz",
               "archiveFileName": "cmake-3.23.4-linux-x86_64.tar.gz",
@@ -95,6 +102,13 @@
             },
             {
               "host": "x86_64-apple-darwin",
+              "url": "https://www.dropbox.com/s/4huuq7pz8kotrll/ninja-1.11.1-macuniversal.zip?dl=1",
+              "archiveFileName": "ninja-1.11.1-macuniversal.zip",
+              "checksum": "SHA-256:373adc0b1f634216f208c72d842b5d75566f861e7ed75dac32d352cfa8b7aa37",
+              "size": "277522"
+            },
+            {
+              "host": "arm64-apple-darwin",
               "url": "https://www.dropbox.com/s/4huuq7pz8kotrll/ninja-1.11.1-macuniversal.zip?dl=1",
               "archiveFileName": "ninja-1.11.1-macuniversal.zip",
               "checksum": "SHA-256:373adc0b1f634216f208c72d842b5d75566f861e7ed75dac32d352cfa8b7aa37",
