@@ -139,11 +139,39 @@ Extra Analog I/O:
 - [ ] `interrupts()`
 - [ ] `noInterrupts()`
 
-### Communication
-- [x] `Serial`
-- [ ] `SPI`
-- [ ] `Stream`
-- [ ] `Wire`
+### Serial
+- [x] `if(Serial)`
+- [x] `available()`
+- [ ] `availableForWrite()`
+- [x] `begin()`
+    - [ ] `config` parameter not yet implemented
+- [ ] `end()`
+- [x] `find()` via ArduinoCore-API
+- [x] `findUntil()` via ArduinoCore-API
+- [ ] `flush()`
+- [x] `parseFloat()` via ArduinoCore-API
+- [x] `parseInt()` via ArduinoCore-API
+- [ ] `peek()`
+- [x] `print()` via ArduinoCore-API
+- [x] `println()` via ArduinoCore-API
+- [x] `read()`
+- [x] `readBytes()` via ArduinoCore-API
+- [x] `readBytesUntil()` via ArduinoCore-API
+- [x] `readString()` via ArduinoCore-API
+- [x] `readStringUntil()` via ArduinoCore-API
+- [x] `setTimeout()` via ArduinoCore-API
+- [x] `write()`
+- [ ] `serialEvent()`
+    - This might not be required? And might be deprecated?
+
+### SPI
+- [ ] ?
+
+### Stream
+- [ ] ?
+
+### Wire
+- [ ] ?
 
 ### USB
 - [N/A] `Keyboard`

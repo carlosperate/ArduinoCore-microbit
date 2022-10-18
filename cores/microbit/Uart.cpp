@@ -29,7 +29,9 @@ int Uart::peek() {
 }
 
 int Uart::read() {
-    return uBit.serial.getc();
+    int c = uBit.serial.getc();
+    // All micro:bit hal error responses as negative values (so less than 0 [DEVICE_OK])
+    return c < MICROBIT_OK ? -1 : c;
 }
 
 void Uart::flush() {
@@ -41,12 +43,10 @@ size_t Uart::write(const uint8_t c) {
     return response == DEVICE_OK ? 1 : 0;
 }
 
-size_t Uart::write(const uint8_t* str, const size_t size) {
-    int bytes_sent = uBit.serial.send((uint8_t*)str, size, SYNC_SPINWAIT);
-    if (bytes_sent == MICROBIT_SERIAL_IN_USE || bytes_sent == MICROBIT_INVALID_PARAMETER) {
-        return 0;
-    }
-    return bytes_sent;
+size_t Uart::write(const uint8_t* buf, const size_t size) {
+    int bytes_sent = uBit.serial.send((uint8_t*)buf, size, SYNC_SPINWAIT);
+    // Any error response will be a negative value
+    return bytes_sent < 0 ? 0 : bytes_sent;
 }
 
 Uart::operator bool() {
