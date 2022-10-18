@@ -61,9 +61,10 @@ This is a list indicate what's been implemented so far, as listed in
 https://www.arduino.cc/reference/en/ :
 
 ### Digital I/O
-- [ ] `digitalRead()`
-- [ ] `digitalWrite()`
-- [ ] `pinMode()`
+- [x] `digitalRead()`
+- [x] `digitalWrite()`
+- [x] `pinMode()`
+    - `OUTPUT_OPENDRAIN` mode not implemented
 
 ### Analog I/O
 - [ ] `analogRead()`
