@@ -1,5 +1,4 @@
 #include "Arduino.h"
-#include "microbit_hal.h"
 
 // The micro:bit HAL global instance
 MicroBit uBit;

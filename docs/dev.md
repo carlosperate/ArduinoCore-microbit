@@ -28,8 +28,10 @@ The source code from the CODAL build system is added to the `system` directory.
 
 All we really need are the CODAL CMake files and the CODAL dependencies repos
 cloned into the `system/codal/libraries` directory, so unnecessary files have
-been removed in (ab0aaff2e8f8848c73d8376702f469d5479aa20c)[https://github.com/carlosperate/ArduinoCore-microbit/commit/ab0aaff2e8f8848c73d8376702f469d5479aa20c]
-and the submodules added in [xxxxxx](xxxxx).
+been removed in
+[ab0aaff2e8f8848c73d8376702f469d5479aa20c](https://github.com/carlosperate/ArduinoCore-microbit/commit/ab0aaff2e8f8848c73d8376702f469d5479aa20c)
+and the submodules added in
+[6b45986fcf748e54e33ca5dad90708cfa4b6c2a6](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6).
 
 ### Modifications
 
