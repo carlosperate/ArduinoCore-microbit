@@ -13,8 +13,17 @@ class Uart : public HardwareSerial {
      *
      * By default configured with 8 bit words, no parity, and 1 stop bit.
      *
+     * @warning Only the `SERIAL_8N1` config is supported.
+     *
      * @param baudrate UART baud rate in bytes per second.
-     * @param config TODO: Need to figure this one out.
+     * @param config Configure the UART settings with #define with this format:
+     *               SERIAL_<word_size><parity><stop_bits>, where:
+     *                 - word_size = bits per word, from `5` to `8`
+     *                 - parity = parity bit configuration for error detection,
+     *                            values can be `N`, `0`, or `1`
+     *                 - stop_bits = Number of stop bits, from `1` to `2`
+     *               Only configuration currently supported is
+     *               SERIAL_8N1 = 8 bit words, no parity, and 1 stop bit.
      */
     void begin(const unsigned long baudrate);
     void begin(const unsigned long baudrate, const uint16_t config);
@@ -61,7 +70,7 @@ class Uart : public HardwareSerial {
     /**
      * Sends data out (TX).
      *
-     * @param c A single charcter to send out.
+     * @param c A single character to send out.
      *
      * @param buf A byte array to send out.
      * @param size The size of the buf data array.
@@ -70,7 +79,7 @@ class Uart : public HardwareSerial {
      */
     size_t write(const uint8_t c);
     size_t write(const uint8_t* buf, const size_t size);
-    using Print::write;  // Take write(const char *str) from the Print class
+    using Print::write;  // Uses write(const char *str) from the api/Print
 
     /**
      * Indicates if it Serial is ready.
