@@ -72,7 +72,7 @@ https://www.arduino.cc/reference/en/ :
     - Empty function for now, will not be implement unless requested/necessary
 - [x] `analogWrite()`
 
-Extra Analog I/O:
+Extra Analog I/O (not available in all Arduino boards):
 - [ ] `analogReadResolution()`
     - Will not be implement unless requested/necessary
 - [NA] `analogWriteResolution()`
@@ -175,7 +175,20 @@ Extra Analog I/O:
 - [ ] ?
 
 ### Wire
-- [ ] ?
+- [ ] `begin()`
+- [ ] `end()`
+- [ ] `requestFrom()`
+- [ ] `beginTransmission()`
+- [ ] `endTransmission()`
+- [ ] `write()`
+- [ ] `available()`
+- [ ] `read()`
+- [ ] `setClock()`
+- [ ] `onReceive()`
+- [ ] `onRequest()`
+- [ ] `setWireTimeout()`
+- [ ] `clearWireTimeoutFlag()`
+- [ ] `getWireTimeoutFlag()`
 
 ### USB
 - [N/A] `Keyboard`
