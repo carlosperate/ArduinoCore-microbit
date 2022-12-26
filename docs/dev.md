@@ -58,6 +58,9 @@ CODAL modifications applied in commit
 Added in [commit b0104aff56a6925d4ffa8a72a56e53208904442a](https://github.com/carlosperate/ArduinoCore-microbit/commit/b0104aff56a6925d4ffa8a72a56e53208904442a):
 - Add Arduino variant folder path to the CMake file list of h and cpp files.
 
+In commit xxxx:
+- Fixed how Arduino Core libraries are included in the build.
+
 Other future changes will also be reflected here.
 
 ### Submodule Patch
