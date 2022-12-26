@@ -175,20 +175,20 @@ Extra Analog I/O (not available in all Arduino boards):
 - [ ] ?
 
 ### Wire
-- [ ] `begin()`
-- [ ] `end()`
-- [ ] `requestFrom()`
-- [ ] `beginTransmission()`
-- [ ] `endTransmission()`
-- [ ] `write()`
-- [ ] `available()`
-- [ ] `read()`
-- [ ] `setClock()`
-- [ ] `onReceive()`
-- [ ] `onRequest()`
-- [ ] `setWireTimeout()`
-- [ ] `clearWireTimeoutFlag()`
-- [ ] `getWireTimeoutFlag()`
+- [x] `begin()`
+- [x] `end()`
+- [x] `requestFrom()`
+- [x] `beginTransmission()`
+- [x] `endTransmission()`
+- [x] `write()`
+- [x] `available()`
+- [x] `read()`
+- [x] `setClock()`
+- [N/A] `onReceive()`
+- [N/A] `onRequest()`
+- [N/A] `setWireTimeout()`
+- [N/A] `clearWireTimeoutFlag()`
+- [N/A] `getWireTimeoutFlag()`
 
 ### USB
 - [N/A] `Keyboard`

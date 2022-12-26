@@ -1,44 +1,54 @@
 #include "Wire.h"
+#include "microbit_hal.h"
 
 namespace arduino {
 
 TwoWire::TwoWire() {}
 
 void TwoWire::begin() {
-    begin(0);
+    // Nothing to do to configure the I2C controller
 }
 
 void TwoWire::begin(uint8_t address) {
-    peripheral_address = address;
-    if (peripheral_address == 0) {
-        // Configure I2C as a controller.
+    if (address != 0) {
+        // I2C peripheral mode is not supported by the micro:bit HAL
+        codal::microbit_panic(MbArduinoPanic::NOT_IMPLEMENTED);
     } else {
-        // Configure I2C as a peripheral.
+        begin();
     }
 }
 
-void TwoWire::end() {}
+void TwoWire::end() {
+    // There isn't a way in the micro:bit HAL to deinitialise I2C
+    codal::microbit_panic(MbArduinoPanic::NOT_IMPLEMENTED);
+}
 
 size_t TwoWire::requestFrom(uint8_t address, size_t len) {
     return requestFrom(address, len, true);
 }
 
 size_t TwoWire::requestFrom(uint8_t address, size_t len, bool stopBit = true) {
-    uint8_t read_buffer[WIRE_BUFFER_SIZE] = { 0 };
+    uint8_t tmp_buffer[WIRE_BUFFER_SIZE] = {0};
+    len = min(WIRE_BUFFER_SIZE, len);
+    uint8_t address_8_bits = (address << 1) | 1;
 
-    // Fill read_buffer[] with I2C read data & capture how many bytes were read
-    uint8_t number_of_bytes_received = len;
-
-    // Move the data to the RX ring buffer
     rx_buffer.clear();
-    for (int i = 0; i < number_of_bytes_received; i++) {
-        rx_buffer.store_char(read_buffer[i]);
+
+    int read_state = uBit.i2c.read(address_8_bits, tmp_buffer, len, !stopBit);
+    if (read_state != MICROBIT_OK) {
+        return 0;
     }
 
-    return number_of_bytes_received;
+    // Move the data to the RX ring buffer
+    for (size_t i = 0; i < len; i++) {
+        rx_buffer.store_char(tmp_buffer[i]);
+    }
+
+    return len;
 }
 
 void TwoWire::beginTransmission(uint8_t address) {
+    peripheral_address = address;
     memset(tx_buffer, 0, WIRE_BUFFER_SIZE);
     tx_buffer_i = 0;
 }
@@ -48,7 +58,10 @@ uint8_t TwoWire::endTransmission() {
 }
 
 uint8_t TwoWire::endTransmission(bool stopBit) {
-    // Send the tx_buffer via I2C
+    int i2c_state = uBit.i2c.write(peripheral_address, tx_buffer, tx_buffer_i, !stopBit);
+    if (i2c_state != MICROBIT_OK) {
+        return 4;
+    }
     return 0;
 }
 
@@ -78,27 +91,18 @@ int TwoWire::read() {
     return rx_buffer.read_char();
 }
 
-void TwoWire::setClock(uint32_t freq) {}
+void TwoWire::setClock(uint32_t freq) {
+    uBit.i2c.setFrequency(freq);
+}
 
 void TwoWire::onReceive(void (*handler)(int)) {
-    onReceiveHandler = handler;
+    // There isn't a way in the micro:bit HAL to deinitialise I2C
+    codal::microbit_panic(MbArduinoPanic::NOT_IMPLEMENTED);
 }
 
 void TwoWire::onRequest(void (*handler)(void)) {
-    onRequestHandler = handler;
-}
-
-void TwoWire::setWireTimeout(uint32_t timeout, bool reset_on_timeout) {
-    timeout_us = timeout;
-    timeout_reset = reset_on_timeout;
-}
-
-void TwoWire::clearWireTimeoutFlag(void) {
-    timeout_flag = false;
-}
-
-bool TwoWire::getWireTimeoutFlag(void) {
-    return timeout_flag;
+    // There isn't a way in the micro:bit HAL to deinitialise I2C
+    codal::microbit_panic(MbArduinoPanic::NOT_IMPLEMENTED);
 }
 
 }  // namespace arduino

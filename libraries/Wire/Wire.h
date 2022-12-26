@@ -6,7 +6,7 @@
  * The official default read/write buffer sizes are 32 bytes and Arduino user
  * sketches should perform individual I2C transactions within these bounds.
  * However, this example Wire library has been configured so that larger
- * buffers can be created by modifying the WIRE_BUFFER_SIZE definition. 
+ * buffers can be created by modifying the WIRE_BUFFER_SIZE definition.
  *
  * Example sketch as an I2C controller:
  *
@@ -63,10 +63,16 @@
 #include "api/RingBuffer.h"
 
 // Wire.end() is not always available and this macro indicates it is present
-#define WIRE_HAS_END (1)
+// The micro:bit HAL doesn't offer a way to uninitialise I2C, so won't be
+// present
+// #define WIRE_HAS_END (1)
+
 // The timeout methods Wire.setWireTimeout(), Wire.getWireTimeoutFlag() and
-// Wire.clearWireTimeout() are not always available either
-#define WIRE_HAS_TIMEOUT (1)
+// Wire.clearWireTimeout() are not always available and this define indicates
+// its presence.
+// The micro:bit HAL has built-in non-configurable time outs, so won't include
+// the methods
+// #define WIRE_HAS_TIMEOUT (1)
 
 // This is not part of the official Arduino Core API, but it might be useful
 // to easily change the tx/rx buffer sizes
@@ -235,44 +241,11 @@ class TwoWire : public HardwareI2C {
      */
     void onRequest(void (*handler)(void));
 
-    /**
-     * Configure the time out.
-     *
-     * By default the time out is not enabled, a call to this method is
-     * needed to enable it.
-     *
-     * @param timeout Time out in microseconds, default value is 100ms.
-     *                Set to zero to disable it.
-     * @param reset_with_timeout Boolean to indicate if the device should
-     *                           reset when the time out expires.
-     */
-    void setWireTimeout(uint32_t timeout = 100000, bool reset_on_timeout = false);
-
-    /**
-     * Clear the time out flag.
-     */
-    void clearWireTimeoutFlag(void);
-
-    /**
-     * Check if a time out has occurred since the last time the flag was
-     * cleared.
-     *
-     * @return True if a time out occurred.
-     */
-    bool getWireTimeoutFlag(void);
-
   private:
-    // Timeout related state
-    uint32_t timeout_us = 0;
-    bool timeout_reset = false;
-    bool timeout_flag = false;
-    // Peripheral mode address and callbacks
     uint8_t peripheral_address = 0;
-    void (*onReceiveHandler)(int);
-    void (*onRequestHandler)(void);
     // Receive and transmit buffers
     RingBufferN<WIRE_BUFFER_SIZE> rx_buffer;
-    uint8_t tx_buffer[WIRE_BUFFER_SIZE] = { 0 };
+    uint8_t tx_buffer[WIRE_BUFFER_SIZE] = {0};
     uint8_t tx_buffer_i = 0;
 };
 
