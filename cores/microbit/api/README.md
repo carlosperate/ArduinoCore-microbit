@@ -3,8 +3,8 @@
 This folder comes from the ArduinoCore-API project:
 https://github.com/arduino/ArduinoCore-API
 
-At commit `e26862e453c1234e1c23506d1839bfa68999d911` from 24 Aug 2022:
-- https://github.com/arduino/ArduinoCore-API/commit/e26862e453c1234e1c23506d1839bfa68999d911
+At commit `844e4bf20c5fad8b89a2f307ba3416f61f512eaa` from 21 December 2022, tagged as `1.4.0`:
+- https://github.com/arduino/ArduinoCore-API/commit/844e4bf20c5fad8b89a2f307ba3416f61f512eaa
 
 ## Changes
 

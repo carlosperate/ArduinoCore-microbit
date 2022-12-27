@@ -35,8 +35,8 @@ and the submodules added in
 
 ### Modifications
 
-CODAL modifications applied in commit
-[6b45986fcf748e54e33ca5dad90708cfa4b6c2a6](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6):
+CODAL modifications applied in
+[commit 6b45986fcf748e54e33ca5dad90708cfa4b6c2a6](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6):
 - Changes to `codal.json` to point to source code in `cores/microbit/`
 - Added flag to `codal.json` to be able to ignore more CODAL BLE files
 - Comment out CMake code that created a `samples` folder
@@ -52,13 +52,15 @@ CODAL modifications applied in commit
   `ARDUINO_SKETCH` & `ARDUINO_LIBRARIES`
 - Created a `.patch` for the `codal-microbit-v2` submodule code that needs
   to be applied to be able to compile with the ArduinoCore-API sources.
-    - One the changes is the `_GNU_SOURCE` define needed due to:
+    - ~~One the changes is the `_GNU_SOURCE` define needed due to:~~
       https://github.com/arduino/ArduinoCore-API/issues/158
+        - This has been fixed in ArduinoCode-API release `1.4.0` and removed in
+          [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx).
 
 Added in [commit b0104aff56a6925d4ffa8a72a56e53208904442a](https://github.com/carlosperate/ArduinoCore-microbit/commit/b0104aff56a6925d4ffa8a72a56e53208904442a):
 - Add Arduino variant folder path to the CMake file list of h and cpp files.
 
-In commit xxxx:
+In [commit 2f2446d695b213dfc1b2954df797ba1003ba54fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/2f2446d695b213dfc1b2954df797ba1003ba54fd):
 - Fixed how Arduino Core libraries are included in the build.
 
 Other future changes will also be reflected here.
@@ -82,8 +84,6 @@ The instructions to apply it can be found in the
     - All the local CMake file changes are surrounded by a
       `TODO: (Arduino Core Edit)` comment, so make sure those changes are
        still applied.
-    - We can ignore any changes from all the removed file.
+    - We can ignore any changes from all the removed files.
     - Ensure `codal.json` has the application path to `../../cores/microbit/`
       folder and set the `DEVICE_BLE` config value to `0`.
-    - This commit right now includes all changes to the original CODAL source:
-      https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6
