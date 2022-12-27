@@ -72,3 +72,6 @@ Uart::operator bool() {
 }
 
 }  // namespace arduino
+
+// Initialise the global instance
+arduino::Uart UART;

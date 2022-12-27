@@ -94,3 +94,6 @@ class Uart : public HardwareSerial {
 };
 
 }  // namespace arduino
+
+// Declare the global instance
+extern arduino::Uart UART;

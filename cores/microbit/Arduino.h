@@ -7,8 +7,7 @@
 // The micro:bit HAL so that setup/loop can use the uBit object
 #include "microbit_hal.h"
 
-// Declare the global objects
-extern arduino::Uart UART;
+// The Serial API object has been created with the UART name
 #define Serial UART
 
 #ifdef __cplusplus
