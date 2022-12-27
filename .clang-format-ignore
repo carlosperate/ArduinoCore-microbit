@@ -1,0 +1,4 @@
+# micro:bit HAL source code
+./system/*
+# Arduino API library
+./cores/microbit/api/*
