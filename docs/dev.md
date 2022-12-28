@@ -55,13 +55,15 @@ CODAL modifications applied in
     - ~~One the changes is the `_GNU_SOURCE` define needed due to:~~
       https://github.com/arduino/ArduinoCore-API/issues/158
         - This has been fixed in ArduinoCode-API release `1.4.0` and removed in
-          [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx).
+          [commit 728cdafdef6b2f81654224d02ccc09dded291228](https://github.com/carlosperate/ArduinoCore-microbit/commit/728cdafdef6b2f81654224d02ccc09dded291228).
 
 Added in [commit b0104aff56a6925d4ffa8a72a56e53208904442a](https://github.com/carlosperate/ArduinoCore-microbit/commit/b0104aff56a6925d4ffa8a72a56e53208904442a):
 - Add Arduino variant folder path to the CMake file list of h and cpp files.
 
-In [commit 2f2446d695b213dfc1b2954df797ba1003ba54fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/2f2446d695b213dfc1b2954df797ba1003ba54fd):
+In [commit 2f2446d695b213dfc1b2954df797ba1003ba54fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/2f2446d695b213dfc1b2954df797ba1003ba54fd)
+and [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
 - Fixed how Arduino Core libraries are included in the build.
+- Ensure C files (not just C++) in the sketch are compiled.
 
 Other future changes will also be reflected here.
 

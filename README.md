@@ -195,12 +195,16 @@ I2C peripheral mode is currently out of scope:
 - [N/A] `onReceive()`
 - [N/A] `onRequest()`
 
-Extra Wire methods, not available in all Arduino cores, also out of scope:
+Extra Wire methods to configure a timeout (not available in all Arduino cores),
+also out of scope as there is a built-in, non-configurable timeout already:
 - [N/A] `setWireTimeout()`
 - [N/A] `clearWireTimeoutFlag()`
 - [N/A] `getWireTimeoutFlag()`
 
 ### USB
+There is no direct USB access from the microcontroller running the Arduino code
+(USB functionality is in a different on-board microcontroller), so this is
+out of scope:
 - [N/A] `Keyboard`
 - [N/A] `Mouse`
 

@@ -5,7 +5,7 @@ MicroBit uBit;
 
 // This function can be overwritten by the variant-specific code
 void initVariant() __attribute__((weak));
-void initVariant() { }
+void initVariant() {}
 
 /**
  * Initialise the micro:bit HAL, and everything needed by the Arduino Core.
