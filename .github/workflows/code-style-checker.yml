@@ -14,4 +14,4 @@ jobs:
     - name: Install Clang Format from PyPI
       run: python3 -m pip install clang-format==15.0.6
     - name: Run local action clang-format
-      run: python3 .github/workflows/run-clang-format.py --style=file --recursive .
+      run: python3 .github/workflows/run-clang-format.py --style=file --recursive --extensions=c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx,ino .
