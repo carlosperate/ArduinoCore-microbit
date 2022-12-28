@@ -72,7 +72,7 @@ https://www.arduino.cc/reference/en/ :
     - Empty function for now, will not be implement unless requested/necessary
 - [x] `analogWrite()`
 
-Extra Analog I/O (not available in all Arduino boards):
+Extra Analog I/O (not available in all Arduino cores):
 - [ ] `analogReadResolution()`
     - Will not be implement unless requested/necessary
 - [NA] `analogWriteResolution()`
@@ -87,10 +87,10 @@ Extra Analog I/O (not available in all Arduino boards):
 - [ ] `tone()`
 
 ### Time
-- [ ] `delay()
-- [ ] `delayMicroseconds()
-- [ ] `micros()
-- [ ] `millis() 
+- [x] `delay()`
+- [x] `delayMicroseconds()`
+- [x] `micros()`
+- [x] `millis()`
 
 ### Math
 - [?] `abs()`
@@ -123,8 +123,8 @@ Extra Analog I/O (not available in all Arduino boards):
 - [x] `isWhitespace()` via ArduinoCore-API
 
 ### Random Numbers
-- [ ] `random()`
-- [ ] `randomSeed()`
+- [x] `random()`
+- [x] `randomSeed()`
 
 ### Bits and Bytes
 - [x] `bit()` via ArduinoCore-API
@@ -169,10 +169,16 @@ Extra Analog I/O (not available in all Arduino boards):
     - This might not be required? And might be deprecated?
 
 ### SPI
-- [ ] ?
-
-### Stream
-- [ ] ?
+- [ ] `SPISettings`
+- [ ] `begin()`
+- [ ] `beginTransaction()`
+- [ ] `endTransaction()`
+- [ ] `end()`
+- [ ] `setBitOrder()`
+- [ ] `setClockDivider()`
+- [ ] `setDataMode()`
+- [ ] `transfer()`
+- [ ] `usingInterrupt()`
 
 ### Wire
 - [x] `begin()`
@@ -184,8 +190,12 @@ Extra Analog I/O (not available in all Arduino boards):
 - [x] `available()`
 - [x] `read()`
 - [x] `setClock()`
+
+I2C peripheral mode is currently out of scope:
 - [N/A] `onReceive()`
 - [N/A] `onRequest()`
+
+Extra Wire methods, not available in all Arduino cores, also out of scope:
 - [N/A] `setWireTimeout()`
 - [N/A] `clearWireTimeoutFlag()`
 - [N/A] `getWireTimeoutFlag()`
