@@ -16,24 +16,27 @@ compiler.S.extra_flags=
 ##########################
 # Compiler configuration #
 ##########################
-# Flags are empty as the build is taken care of by the CODAL CMake files
 compiler.path={runtime.tools.arm-none-eabi-gcc-7-2017q4.path}/bin/
-
 compiler.cpp.cmd=arm-none-eabi-g++
-compiler.cpp.flags=
-
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.S.cmd=arm-none-eabi-gcc
+compiler.c.elf.cmd=arm-none-eabi-gcc
+compiler.objcopy.cmd=arm-none-eabi-objcopy
 compiler.ar.cmd=arm-none-eabi-ar
 
-compiler.c.cmd=arm-none-eabi-gcc
+# Flags are empty as the build is taken care of by the CODAL CMake files
+compiler.cpp.flags=
 compiler.c.flags=
-
-compiler.S.cmd=arm-none-eabi-gcc
 compiler.S.flags=
-
-compiler.c.elf.cmd=arm-none-eabi-gcc
 compiler.c.elf.flags=
+compiler.ar.flags=
 
-compiler.objcopy.cmd=arm-none-eabi-objcopy
+# Arduino macros that need to be defined globally, e.g. F_CPU is used by some libraries for timing calculations
+compiler.arduino.flags=-DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch}
+
+# Compiler general flags for compiling C/C++ code for this platform
+# Only really used for the preprocessor, as everything else is compiled with the CODAL build system
+compiler.general.flags=-mcpu={build.mcu} -mthumb -c {compiler.warning_flags} -std=gnu++11 -ffunction-sections -fdata-sections -nostdlib -fno-rtti -fno-exceptions
 
 #########################
 # Configure Build Tools #
@@ -60,9 +63,10 @@ compiler.codal.includes={compiler.codal.includes_codal} {compiler.codal.includes
 
 # The preoprocesor runs first to generate function prototypes, convert the ino to a cpp file, etc
 # https://arduino.github.io/arduino-cli/0.27/platform-specification/?utm_source=pocket_mylist#recipe-to-run-the-preprocessor
+# The main thing needed for the preprocessor flags is -E, so that it generates the function prototypes correctly, the other flags are needed for
+preproc.macros.flags={compiler.general.flags} {compiler.codal.flags} {compiler.arduino.flags} -E -w -x c++ -CC
 # If recipe.preproc.macros is not defined, it is automatically generated from recipe.cpp.o.pattern.
-preproc.macros.flags={compiler.codal.includes} {compiler.codal.flags} -mcpu={build.mcu} -mthumb -c {compiler.warning_flags} -std=gnu++11 -ffunction-sections -fdata-sections -nostdlib  -fno-rtti -fno-exceptions
-recipe.preproc.macros= "{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version}  -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags}                                          {includes} "{source_file}" -o "{preprocessed_file_path}"
+recipe.preproc.macros= "{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.codal.includes} {includes} "{source_file}" -o "{preprocessed_file_path}"
 
 # We don't compile with the Arduino build system, we'll use CMake in a hook later on
 recipe.c.o.pattern=echo "recipe.c.o.pattern"
@@ -72,13 +76,13 @@ recipe.ar.pattern=echo "recipe.ar.pattern"
 
 recipe.c.combine.pattern=echo "recipe.c.combine.pattern"
 
-# First create the build files before the Arduino build system starts preprocessing
+# First create the CODAL build files before the Arduino build system starts preprocessing
 # This is to ensure codal_extra_definitions.h and codal_extra_definitions_new.h are created
 recipe.hooks.prebuild.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
-# The first time the Arduino files were not yet placed in the build folder by the preprocesor,
-# so run it again at linking stage adding via CLI the paths to the newly created files
+# The first time CODAL build system was run the Arduino files were not yet placed in the build folder
+# by the preprocesor, so run it again at linking stage and add to the args the paths to the newly created files
 recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo "-DARDUINO_SKETCH={build.path}/sketch" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" -G "Ninja"
-# And then do the real compilation as a second post link hook
+# And finally do the real compilation as a second post link hook
 recipe.hooks.linking.postlink.2.pattern={tools.ninja.cmd} -C "{build.path}/codal/"
 
 # Now that CMake has built everything, create the hex and bin files from the ELF file
