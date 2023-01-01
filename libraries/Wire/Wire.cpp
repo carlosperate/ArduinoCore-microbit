@@ -29,7 +29,7 @@ size_t TwoWire::requestFrom(uint8_t address, size_t len) {
 
 size_t TwoWire::requestFrom(uint8_t address, size_t len, bool stopBit = true) {
     uint8_t tmp_buffer[WIRE_BUFFER_SIZE] = {0};
-    len = min(WIRE_BUFFER_SIZE, len);
+    len = codal::min(WIRE_BUFFER_SIZE, len);
     uint8_t address_8_bits = (address << 1) | 1;
 
     rx_buffer.clear();

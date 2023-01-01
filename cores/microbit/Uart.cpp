@@ -61,7 +61,7 @@ size_t Uart::write(const uint8_t c) {
 }
 
 size_t Uart::write(const uint8_t* buf, const size_t size) {
-    int bytes_sent = uBit.serial.send((uint8_t*)buf, size, SYNC_SPINWAIT);
+    int bytes_sent = uBit.serial.send((uint8_t*)buf, size, codal::SYNC_SPINWAIT);
     // Any error response will be a negative value
     return bytes_sent < 0 ? 0 : bytes_sent;
 }

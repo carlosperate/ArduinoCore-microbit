@@ -2,7 +2,7 @@
 
 #include "MicroBit.h"
 
-extern MicroBit uBit;
+extern codal::MicroBit uBit;
 
 /**
  * Error codes specific for this micro:bit Arduino Core.

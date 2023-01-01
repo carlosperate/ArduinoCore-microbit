@@ -1,7 +1,7 @@
 #include "Arduino.h"
 
 // The micro:bit HAL global instance
-MicroBit uBit;
+codal::MicroBit uBit;
 
 // This function can be overwritten by the variant-specific code
 void initVariant() __attribute__((weak));
