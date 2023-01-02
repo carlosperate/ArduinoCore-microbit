@@ -61,9 +61,12 @@ Added in [commit b0104aff56a6925d4ffa8a72a56e53208904442a](https://github.com/ca
 - Add Arduino variant folder path to the CMake file list of h and cpp files.
 
 In [commit 2f2446d695b213dfc1b2954df797ba1003ba54fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/2f2446d695b213dfc1b2954df797ba1003ba54fd)
-and [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+and [commit 9905ee14c359238b6b25a697bfe3d530e301bbf2](https://github.com/carlosperate/ArduinoCore-microbit/commit/9905ee14c359238b6b25a697bfe3d530e301bbf2):
 - Fixed how Arduino Core libraries are included in the build.
 - Ensure C files (not just C++) in the sketch are compiled.
+
+In [commit xxxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+- Pass cli values to the CMake build to generate Arduino specific defines
 
 Other future changes will also be reflected here.
 

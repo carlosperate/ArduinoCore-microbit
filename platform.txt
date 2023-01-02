@@ -90,7 +90,7 @@ recipe.c.combine.pattern=echo "recipe.c.combine.pattern"
 recipe.hooks.prebuild.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
 # The first time CODAL build system was run the Arduino files were not yet placed in the build folder
 # by the preprocesor, so run it again at linking stage and add to the args the paths to the newly created files
-recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo "-DARDUINO_SKETCH={build.path}/sketch" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" -G "Ninja"
+recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DF_CPU={build.f_cpu}" "-DARDUINO={runtime.ide.version}" "-DARDUINO_BOARD=ARDUINO_{build.board}" "-DARDUINO_ARCH=ARDUINO_ARCH_{build.arch}" "-DARDUINO_SKETCH={build.path}/sketch" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
 # And finally do the real compilation as a second post link hook
 recipe.hooks.linking.postlink.2.pattern={tools.ninja.cmd} -C "{build.path}/codal/"
 
