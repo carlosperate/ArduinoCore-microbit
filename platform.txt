@@ -31,6 +31,15 @@ compiler.S.flags=
 compiler.c.elf.flags=
 compiler.ar.flags=
 
+# Different compiler warning levels can be set in the Arduino IDE/CLI
+# This is currently set here, but not used, as the CODAL build system needs to be hooked
+# to take some flag defined here into the CMakeLists.txt file and apply flags appropriately
+compiler.warning_flags=-w
+compiler.warning_flags.none=-w
+compiler.warning_flags.default=
+compiler.warning_flags.more=-Wall
+compiler.warning_flags.all=-Wall -Wextra
+
 # Arduino macros that need to be defined globally, e.g. F_CPU is used by some libraries for timing calculations
 compiler.arduino.flags=-DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch}
 
@@ -63,7 +72,7 @@ compiler.codal.includes={compiler.codal.includes_codal} {compiler.codal.includes
 
 # The preoprocesor runs first to generate function prototypes, convert the ino to a cpp file, etc
 # https://arduino.github.io/arduino-cli/0.27/platform-specification/?utm_source=pocket_mylist#recipe-to-run-the-preprocessor
-# The main thing needed for the preprocessor flags is -E, so that it generates the function prototypes correctly, the other flags are needed for
+# The main thing needed for the preprocessor flags is -E, so that it generates the function prototypes correctly
 preproc.macros.flags={compiler.general.flags} {compiler.codal.flags} {compiler.arduino.flags} -E -w -x c++ -CC
 # If recipe.preproc.macros is not defined, it is automatically generated from recipe.cpp.o.pattern.
 recipe.preproc.macros= "{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.codal.includes} {includes} "{source_file}" -o "{preprocessed_file_path}"
