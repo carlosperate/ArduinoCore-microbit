@@ -1,7 +1,7 @@
 # Arduino Core for BBC micro:bit based on CODAL
 
-This an Arduino Core for the BBC micro:bit built on top of the official
-C++ HAL (Hardware Abstraction Layer).
+This an Arduino Core for the BBC micro:bit using the official C++ HAL
+(Hardware Abstraction Layer).
 
 This enables the usage of Arduino IDE and Arduino libraries, together with
 the DAL/CODAL `uBit` object API:
@@ -169,18 +169,25 @@ Extra Analog I/O (not available in all Arduino cores):
     - This might not be required? And might be deprecated?
 
 ### SPI
-- [ ] `SPISettings`
-- [ ] `begin()`
-- [ ] `beginTransaction()`
-- [ ] `endTransaction()`
-- [ ] `end()`
-- [ ] `setBitOrder()`
-- [ ] `setClockDivider()`
-- [ ] `setDataMode()`
-- [ ] `transfer()`
-- [ ] `usingInterrupt()`
+The SPI library has been created, but it is currently untested.
+
+- [x] `SPISettings`
+- [x] `begin()`
+- [x] `beginTransaction()`
+- [x] `endTransaction()`
+- [x] `end()`
+- [x] `transfer()`
+- [x] `transfer16()`
+- [x] `usingInterrupt()` (blank implementation as it's used it's not needed)
+- [x] `notusingInterrupt()` (blank implementation as it's used it's not needed)
+- [N/A] `setBitOrder()` (Deprecated by Arduino, should use SPISettings instead)
+- [N/A] `setClockDivider()` (Deprecated by Arduino, should use SPISettings instead)
+- [N/A] `setDataMode()` (Deprecated by Arduino, should use SPISettings instead)
+
 
 ### Wire
+The Wire/TwoWrie/I2C library has been created, but it is currently untested.
+
 - [x] `begin()`
 - [x] `end()`
 - [x] `requestFrom()`
@@ -191,7 +198,7 @@ Extra Analog I/O (not available in all Arduino cores):
 - [x] `read()`
 - [x] `setClock()`
 
-I2C peripheral mode is currently out of scope:
+Wire/I2C peripheral mode is currently out of scope:
 - [N/A] `onReceive()`
 - [N/A] `onRequest()`
 
