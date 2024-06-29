@@ -73,7 +73,7 @@ compiler.codal.includes={compiler.codal.includes_codal} {compiler.codal.includes
 # The preoprocesor runs first to generate function prototypes, convert the ino to a cpp file, etc
 # https://arduino.github.io/arduino-cli/0.27/platform-specification/?utm_source=pocket_mylist#recipe-to-run-the-preprocessor
 # The main thing needed for the preprocessor flags is -E, so that it generates the function prototypes correctly
-preproc.macros.flags={compiler.general.flags} {compiler.codal.flags} {compiler.arduino.flags} -E -w -x c++ -CC
+preproc.macros.flags={compiler.general.flags} {compiler.codal.flags} {compiler.arduino.flags} "-I{build.core.path}" "-I{build.core.path}/api" "-I{build.core.path}/api/deprecated" "-I{build.core.path}/api/deprecated-avr-comp/avr" -E -w -x c++ -CC
 # If recipe.preproc.macros is not defined, it is automatically generated from recipe.cpp.o.pattern.
 recipe.preproc.macros= "{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.codal.includes} {includes} "{source_file}" -o "{preprocessed_file_path}"
 
