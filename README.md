@@ -79,12 +79,12 @@ Extra Analog I/O (not available in all Arduino cores):
     - There is no DAC, so this function is not applicable
 
 ### Advanced I/O
-- [ ] `noTone()`
+- [x] `tone()` (untested)
+- [x] `noTone()` (untested)
 - [ ] `pulseIn()`
 - [ ] `pulseInLong()`
 - [ ] `shiftIn()`
 - [ ] `shiftOut()`
-- [ ] `tone()`
 
 ### Time
 - [x] `delay()`
@@ -171,7 +171,7 @@ Extra Analog I/O (not available in all Arduino cores):
 ### SPI
 The SPI library has been created, but it is currently untested.
 
-- [x] `SPISettings`
+- [x] `SPISettings` via ArduinoCore-API
 - [x] `begin()`
 - [x] `beginTransaction()`
 - [x] `endTransaction()`
