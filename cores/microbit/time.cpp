@@ -4,18 +4,23 @@
 /**
  * Wait for a given amount of time.
  *
- * The current implementation is a busy wait with a timer based delay.
- * uBit.sleep() could be used instead, but it has a time resolution of 4 ms,
- * and depends on other fibers cooperating.
+ * The CODAL call yields to other fibers while waiting.
+ * Even if the Arduino core does not create multiple fibers, multiple
+ * micro:bit features depend on the CODAL scheduler to execute code while
+ * idle during a yield.
+ * The downside is that it has a time resolution of 4 ms,
+ * and depends on other fibers/idle-tasks cooperating.
  *
  * @param ms Time to wait in milliseconds.
  */
 void delay(unsigned long ms) {
-    codal::system_timer_wait_ms(ms);
+    uBit.sleep(ms);
 }
 
 /**
  * Like delay(), with with microseconds instead of milliseconds.
+ *
+ * The CODAL call is a busy wait with a timer based delay.
  *
  * @param us Time to wait in microseconds.
  */

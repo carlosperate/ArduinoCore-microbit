@@ -17,6 +17,7 @@ static const uint8_t A5 = 10;
 
 inline bool isPinDigital(pin_size_t pin) __attribute__((always_inline));
 inline bool isPinAnalog(pin_size_t pin) __attribute__((always_inline));
+inline bool isPinPwm(pin_size_t pin) __attribute__((always_inline));
 
 inline bool isPinDigital(pin_size_t pin) {
     return (pin <= 16);
@@ -24,4 +25,8 @@ inline bool isPinDigital(pin_size_t pin) {
 
 inline bool isPinAnalog(pin_size_t pin) {
     return (pin <= 4) || (pin == 10);
+}
+
+inline bool isPinPwm(pin_size_t pin) {
+    return isPinDigital(pin);
 }

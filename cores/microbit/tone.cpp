@@ -2,15 +2,14 @@
 #include "api/Common.h"
 #include "microbit_hal.h"
 
-#define TONE_TIMER_ID       71
-#define TONE_TIMER_VALUE    1
+#define TONE_TIMER_ID    71
+#define TONE_TIMER_VALUE 1
 
 static int current_tone_pin = -1;
 
 static void timer_stop_tone(MicroBitEvent) {
     noTone(current_tone_pin);
 }
-
 
 /**
  * Generate a square wave on the specified pin & frequency at a 50% duty cycle.
@@ -26,7 +25,7 @@ static void timer_stop_tone(MicroBitEvent) {
  * before calling tone() on a different pin.
  *
  * This function is non-blocking, so when called with a duration value, the
- * function will return inmediately while the tone plays in the background.
+ * function will return immediately while the tone plays in the background.
  *
  * @param _pin The pin to output the tone.
  * @param frequency The frequency of the tone in Hz.
@@ -42,9 +41,15 @@ void tone(uint8_t _pin, unsigned int frequency, unsigned long duration) {
 
     if (current_tone_pin != -1 && current_tone_pin != _pin) return;
 
+    uBit.audio.enable();
     uBit.audio.setPin(uBit.io.pin[_pin]);
-    uBit.audio.virtualOutputPin.setAnalogPeriodUs(1000000 / frequency);
-    uBit.audio.virtualOutputPin.setAnalogValue(127);
+    if (frequency) {
+        uBit.audio.virtualOutputPin.setAnalogPeriodUs(1000000 / frequency);
+        uBit.audio.virtualOutputPin.setAnalogValue(127);
+    } else {
+        // Setting a frequency of 0 Hz should stop the tone
+        uBit.audio.virtualOutputPin.setAnalogValue(0);
+    }
 
     current_tone_pin = _pin;
 
@@ -53,7 +58,7 @@ void tone(uint8_t _pin, unsigned int frequency, unsigned long duration) {
     if (duration) {
         // Set a timer to stop the tone after the given time
         uBit.messageBus.listen(TONE_TIMER_ID, TONE_TIMER_VALUE, &timer_stop_tone);
-        uBit.timer.eventAfter(duration, TONE_TIMER_ID, TONE_TIMER_VALUE)
+        uBit.timer.eventAfter(duration, TONE_TIMER_ID, TONE_TIMER_VALUE);
     }
 }
 
