@@ -2,9 +2,8 @@
  * @file wiring_digital.cpp
  * @brief Function definitions for setting pin mode, digital read and write.
  */
+#include <pins_arduino.h>
 #include "api/Common.h"
-#include "pins_arduino.h"
-
 #include "microbit_hal.h"
 
 /**

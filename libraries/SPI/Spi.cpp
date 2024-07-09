@@ -1,5 +1,6 @@
 #include "SPI.h"
-#include "pins_arduino.h"
+#include <microbit_hal.h>
+#include <pins_arduino.h>
 
 using namespace arduino;
 

@@ -1,7 +1,7 @@
 #include "Wire.h"
-#include "microbit_hal.h"
+#include <microbit_hal.h>
 
-namespace arduino {
+using namespace arduino;
 
 TwoWire::TwoWire() {}
 
@@ -96,15 +96,13 @@ void TwoWire::setClock(uint32_t freq) {
 }
 
 void TwoWire::onReceive(void (*handler)(int)) {
-    // There isn't a way in the micro:bit HAL to deinitialise I2C
+    // The micro:bit HAL does not offer I2C peripheral functionality
     codal::microbit_panic(MbArduinoPanic::NOT_IMPLEMENTED);
 }
 
 void TwoWire::onRequest(void (*handler)(void)) {
-    // There isn't a way in the micro:bit HAL to deinitialise I2C
+    // The micro:bit HAL does not offer I2C peripheral functionality
     codal::microbit_panic(MbArduinoPanic::NOT_IMPLEMENTED);
 }
 
-}  // namespace arduino
-
-arduino::TwoWire Wire;
+TwoWire Wire;

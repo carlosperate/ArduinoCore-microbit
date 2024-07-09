@@ -1,6 +1,5 @@
+#include <pins_arduino.h>
 #include "api/Common.h"
-#include "pins_arduino.h"
-
 #include "microbit_hal.h"
 
 // Default configuration for compatibility with old Arduino Cores and sketches
@@ -62,18 +61,18 @@ void analogReference(uint8_t mode) {}
  *              analogWriteResolution() function.
  */
 void analogWrite(pin_size_t pinNumber, int value) {
-    if (!isPinAnalog(pinNumber)) {
+    if (!isPinPwm(pinNumber)) {
         codal::microbit_panic(MbArduinoPanic::INVALID_PIN);
     }
 
     // micro:bit HAL generates a 10-bit PWM as the default
-    int microbitHalValue = value;
+    int microbit_hal_value = value;
     if (_analogWriteResolution > 10) {
-        microbitHalValue = microbitHalValue >> (_analogWriteResolution - 10);
+        microbit_hal_value = microbit_hal_value >> (_analogWriteResolution - 10);
     } else if (_analogWriteResolution < 10) {
-        microbitHalValue = microbitHalValue << (10 - _analogWriteResolution);
+        microbit_hal_value = microbit_hal_value << (10 - _analogWriteResolution);
     }
-    uBit.io.pin[pinNumber].setAnalogValue(microbitHalValue);
+    uBit.io.pin[pinNumber].setAnalogValue(microbit_hal_value);
 }
 
 /**
