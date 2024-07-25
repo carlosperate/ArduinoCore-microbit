@@ -20,6 +20,7 @@ We had to make some modifications to this project:
   [e733d03ed4adff7a15ee31472b779651d06db400](https://github.com/carlosperate/ArduinoCore-microbit/commit/e733d03ed4adff7a15ee31472b779651d06db400).
 
 ### Considerations when updating ArduinoCore-API
+
 - Ensure `String.h` is renamed to `WString.h` and remove `depreacted/WString.h`
 
 ## CODAL
@@ -52,7 +53,7 @@ CODAL modifications applied in
   `ARDUINO_SKETCH` & `ARDUINO_LIBRARIES`
 - Created a `.patch` for the `codal-microbit-v2` submodule code that needs
   to be applied to be able to compile with the ArduinoCore-API sources.
-    - ~~One the changes is the `_GNU_SOURCE` define needed due to:~~
+    - ~~One changes is the `_GNU_SOURCE` define needed due to:~~
       https://github.com/arduino/ArduinoCore-API/issues/158
         - This has been fixed in ArduinoCode-API release `1.4.0` and removed in
           [commit 728cdafdef6b2f81654224d02ccc09dded291228](https://github.com/carlosperate/ArduinoCore-microbit/commit/728cdafdef6b2f81654224d02ccc09dded291228).
@@ -65,8 +66,13 @@ and [commit 9905ee14c359238b6b25a697bfe3d530e301bbf2](https://github.com/carlosp
 - Fixed how Arduino Core libraries are included in the build.
 - Ensure C files (not just C++) in the sketch are compiled.
 
-In [commit xxxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+In [commit 059e0de735e618e8e77a0ccbaa0d09f3ee5b9759](https://github.com/carlosperate/ArduinoCore-microbit/commit/059e0de735e618e8e77a0ccbaa0d09f3ee5b9759):
 - Pass cli values to the CMake build to generate Arduino specific defines
+
+In [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+- Updated CODAL from tag v0.2.43 to v0.2.67
+- Updated microbit-v2-samples files from commit a38d392 to d59f07b
+- Update codal.json config from `NO_BLE` to `DEVICE_BLE`
 
 Other future changes will also be reflected here.
 
@@ -84,6 +90,9 @@ The instructions to apply it can be found in the
       `codal-microbit-v2/blob/master/target-locked.json`.
     - Check if the patches listed in `system/codal/libraries/README.md` are
       still applicable, and update the patch if needed
+- Diff the changes between the old and new versions of
+  `codal-microbit-v2/target.json` and check if any changes there has an impact
+  on platform.txt
 - The CODAL CMake files from the `microbit-v2-samples` repo can be updated
   when any upstream changes are relevant to this Arduino Core.
     - All the local CMake file changes are surrounded by a

@@ -33,7 +33,7 @@ index 93e7995..d999bf0 100644
       * Create a software representation of a button.
       *
 diff --git a/inc/compat/MicroBitCompat.h b/inc/compat/MicroBitCompat.h
-index 521e935..a94879a 100644
+index 3c5fd15..bd6c1c8 100644
 --- a/inc/compat/MicroBitCompat.h
 +++ b/inc/compat/MicroBitCompat.h
 @@ -54,13 +54,13 @@ DEALINGS IN THE SOFTWARE.

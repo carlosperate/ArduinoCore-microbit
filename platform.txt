@@ -64,7 +64,7 @@ tools.ninja.cmd.windows="{tools.ninja.path}/ninja.exe"
 # Capture all the CODAL include directories, so that it can be included by the preprocessor
 compiler.codal.flags=-DNRF52833_XXAA
 compiler.codal.includes_microbit_v2="-I{build.system.path}/codal/libraries/codal-microbit-v2/inc" "-I{build.system.path}/codal/libraries/codal-microbit-v2/inc/compat/" "-I{build.system.path}/codal/libraries/codal-microbit-v2/model" "-I{build.system.path}/codal/libraries/codal-microbit-v2/inc/bluetooth/"
-compiler.codal.includes_core="-I{build.system.path}/codal/libraries/codal-core/inc/core" "-I{build.system.path}/codal/libraries/codal-core/inc/driver-models" "-I{build.system.path}/codal/libraries/codal-core/inc/drivers" "-I{build.system.path}/codal/libraries/codal-core/inc/streams" "-I{build.system.path}/codal/libraries/codal-core/inc/types"
+compiler.codal.includes_core="-I{build.system.path}/codal/libraries/codal-core/inc/core" "-I{build.system.path}/codal/libraries/codal-core/inc/driver-models" "-I{build.system.path}/codal/libraries/codal-core/inc/drivers" "-I{build.system.path}/codal/libraries/codal-core/inc/streams" "-I{build.system.path}/codal/libraries/codal-core/inc/types" "-I{build.path}/codal/libraries/codal-core/gen"
 compiler.codal.includes_nrf52="-I{build.system.path}/codal/libraries/codal-nrf52/inc/" "-I{build.system.path}/codal/libraries/codal-nrf52/inc/cmsis"
 compiler.codal.includes_nrfx="-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/mdk/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/templates/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/templates/nRF52833/" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/drivers/include" "-I{build.system.path}/codal/libraries/codal-nrf52/nrfx/drivers/src"
 compiler.codal.includes_codal="-I{build.system.path}/codal/utils/cmake/toolchains/ARM_GCC/" "-I{build.system.path}/codal/libraries/" -include "{build.path}/codal/codal_extra_definitions_new.h" -include "{build.path}/codal/codal_extra_definitions.h"
@@ -82,6 +82,8 @@ recipe.c.o.pattern=echo "recipe.c.o.pattern"
 recipe.cpp.o.pattern=echo "recipe.cpp.o.pattern"
 recipe.S.o.pattern=echo "recipe.S.o.pattern"
 recipe.ar.pattern=echo "recipe.ar.pattern"
+
+recipe.hooks.libraries.prebuild.1.pattern=echo "hooks.libraries"
 
 recipe.c.combine.pattern=echo "recipe.c.combine.pattern"
 

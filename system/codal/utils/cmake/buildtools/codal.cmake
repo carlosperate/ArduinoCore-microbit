@@ -19,7 +19,7 @@ target_link_libraries(
 #if(${device.generate_bin})
 #    include(${TOOLCHAIN_FOLDER}/bin-generator.cmake)
 #endif()
-
+#
 # import toolchain hex generation command
 #if(${device.generate_hex})
 #    include(${TOOLCHAIN_FOLDER}/hex-generator.cmake)

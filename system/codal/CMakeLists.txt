@@ -19,7 +19,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.6)
 
 # include additional cmake
 include(utils/cmake/JSONParser.cmake)
@@ -86,7 +86,7 @@ SET(CODAL_TARGET_CPU_ARCHITECTURE ${device.architecture})
 #if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/${CODAL_APP_SOURCE_DIR} AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/main.cpp)
 #    FILE(COPY ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/main.cpp DESTINATION ${CMAKE_CURRENT_LIST_DIR}/${CODAL_APP_SOURCE_DIR})
 #endif()
-
+#
 #copy samples and remove main.cpp
 #if(NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/samples AND EXISTS ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples/)
 #    FILE(COPY ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST}/${codal.target.name}/samples DESTINATION ${CMAKE_CURRENT_LIST_DIR})
@@ -112,7 +112,7 @@ set(PLATFORM_INCLUDES_PATH "${PROJECT_SOURCE_DIR}/utils/cmake/toolchains/${devic
 
 # TODO: (Arduino Core Edit) Don't create the codal/build folder, and place all files into the CMake build output directory
 #file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
-
+#
 # configure output directories
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  "${PROJECT_SOURCE_DIR}/build")
 #set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
@@ -138,7 +138,7 @@ foreach(var ${device})
     string(REGEX MATCH "[^device\.cmake_definitions\.]([A-Z,a-z,0-9,_,]+)" CODAL_CMAKE_DEFINITION "${var}")
 
     set(${CODAL_CMAKE_DEFINITION} ${${var}})
- endforeach()
+endforeach()
 
 #define any additional symbols specified by the target.
 if("${device.definitions}" STRGREATER "")
@@ -242,13 +242,17 @@ endif()
 
 #finally, find sources and includes of the application, and create a target.
 RECURSIVE_FIND_DIR(INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.h")
+RECURSIVE_FIND_DIR(HPP_DIRS "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.hpp")
+list(APPEND INCLUDE_DIRS ${HPP_DIRS})
+
 # *.c?? only catches .cpp, not .c, so let's be precise
 RECURSIVE_FIND_FILE(SOURCE_FILES "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.cpp")
-
 RECURSIVE_FIND_FILE(S_FILES "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.s")
 RECURSIVE_FIND_FILE(C_FILES "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.c")
+RECURSIVE_FIND_FILE(CC_FILES "${PROJECT_SOURCE_DIR}/${CODAL_APP_SOURCE_DIR}" "*.cc")
 list(APPEND SOURCE_FILES ${S_FILES})
 list(APPEND SOURCE_FILES ${C_FILES})
+list(APPEND SOURCE_FILES ${CC_FILES})
 
 # TODO: (Arduino Core Edit) Add Arduino files to the build from CLI set values
 if("${ARDUINO_SKETCH}" STRGREATER "")
