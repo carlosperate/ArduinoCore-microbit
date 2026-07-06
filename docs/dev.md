@@ -14,10 +14,10 @@ We had to make some modifications to this project:
 - Renamed `String.h` to `WString.h` to avoid clashes with standard library
   `#include <string.h>`
     - https://github.com/arduino/ArduinoCore-API/issues/37
-    - commit [`c8ea3774dbbedbc24f1a5df37cc9b6a6993bf67d`](https://github.com/carlosperate/ArduinoCore-microbit/commit/c8ea3774dbbedbc24f1a5df37cc9b6a6993bf67d)
+    - commit [c8ea377](https://github.com/carlosperate/ArduinoCore-microbit/commit/c8ea3774dbbedbc24f1a5df37cc9b6a6993bf67d)
 - Removed `api/depcreated/WString.h`, since `api/String.h` has already been
   renamed to `api/WString.h` in
-  [e733d03ed4adff7a15ee31472b779651d06db400](https://github.com/carlosperate/ArduinoCore-microbit/commit/e733d03ed4adff7a15ee31472b779651d06db400).
+  [e733d03](https://github.com/carlosperate/ArduinoCore-microbit/commit/e733d03ed4adff7a15ee31472b779651d06db400).
 
 ### Considerations when updating ArduinoCore-API
 
@@ -30,14 +30,14 @@ The source code from the CODAL build system is added to the `system` directory.
 All we really need are the CODAL CMake files and the CODAL dependencies repos
 cloned into the `system/codal/libraries` directory, so unnecessary files have
 been removed in
-[ab0aaff2e8f8848c73d8376702f469d5479aa20c](https://github.com/carlosperate/ArduinoCore-microbit/commit/ab0aaff2e8f8848c73d8376702f469d5479aa20c)
+[ab0aaff](https://github.com/carlosperate/ArduinoCore-microbit/commit/ab0aaff2e8f8848c73d8376702f469d5479aa20c)
 and the submodules added in
-[6b45986fcf748e54e33ca5dad90708cfa4b6c2a6](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6).
+[6b45986](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6).
 
 ### Modifications
 
 CODAL modifications applied in
-[commit 6b45986fcf748e54e33ca5dad90708cfa4b6c2a6](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6):
+[commit 6b45986](https://github.com/carlosperate/ArduinoCore-microbit/commit/6b45986fcf748e54e33ca5dad90708cfa4b6c2a6):
 - Changes to `codal.json` to point to source code in `cores/microbit/`
 - Added flag to `codal.json` to be able to ignore more CODAL BLE files
 - Comment out CMake code that created a `samples` folder
@@ -56,20 +56,20 @@ CODAL modifications applied in
     - ~~One changes is the `_GNU_SOURCE` define needed due to:~~
       https://github.com/arduino/ArduinoCore-API/issues/158
         - This has been fixed in ArduinoCode-API release `1.4.0` and removed in
-          [commit 728cdafdef6b2f81654224d02ccc09dded291228](https://github.com/carlosperate/ArduinoCore-microbit/commit/728cdafdef6b2f81654224d02ccc09dded291228).
+          [commit 728cdaf](https://github.com/carlosperate/ArduinoCore-microbit/commit/728cdafdef6b2f81654224d02ccc09dded291228).
 
-Added in [commit b0104aff56a6925d4ffa8a72a56e53208904442a](https://github.com/carlosperate/ArduinoCore-microbit/commit/b0104aff56a6925d4ffa8a72a56e53208904442a):
+Added in [commit b0104af](https://github.com/carlosperate/ArduinoCore-microbit/commit/b0104aff56a6925d4ffa8a72a56e53208904442a):
 - Add Arduino variant folder path to the CMake file list of h and cpp files.
 
-In [commit 2f2446d695b213dfc1b2954df797ba1003ba54fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/2f2446d695b213dfc1b2954df797ba1003ba54fd)
-and [commit 9905ee14c359238b6b25a697bfe3d530e301bbf2](https://github.com/carlosperate/ArduinoCore-microbit/commit/9905ee14c359238b6b25a697bfe3d530e301bbf2):
+In [commit 2f2446d](https://github.com/carlosperate/ArduinoCore-microbit/commit/2f2446d695b213dfc1b2954df797ba1003ba54fd)
+and [commit 9905ee1](https://github.com/carlosperate/ArduinoCore-microbit/commit/9905ee14c359238b6b25a697bfe3d530e301bbf2):
 - Fixed how Arduino Core libraries are included in the build.
 - Ensure C files (not just C++) in the sketch are compiled.
 
-In [commit 059e0de735e618e8e77a0ccbaa0d09f3ee5b9759](https://github.com/carlosperate/ArduinoCore-microbit/commit/059e0de735e618e8e77a0ccbaa0d09f3ee5b9759):
+In [commit 059e0de](https://github.com/carlosperate/ArduinoCore-microbit/commit/059e0de735e618e8e77a0ccbaa0d09f3ee5b9759):
 - Pass cli values to the CMake build to generate Arduino specific defines
 
-In [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+In [commit 34280fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/34280fdae45e9385e5cbb3bc435ab5517e57a53e):
 - Updated CODAL from tag v0.2.43 to v0.2.67
 - Updated microbit-v2-samples files from commit a38d392 to d59f07b
 - Update codal.json config from `NO_BLE` to `DEVICE_BLE`

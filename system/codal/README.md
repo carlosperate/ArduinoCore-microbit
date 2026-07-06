@@ -2,6 +2,7 @@
 
 From commit `a38d392c3ff032273663ace9e4aa4ede95f7c220` on 27th Sep 2022:
 - https://github.com/lancaster-university/microbit-v2-samples/commit/a38d392c3ff032273663ace9e4aa4ede95f7c220
+
 Updated to commit `d59f07b254f09dd6dbe0a8227e22dd4cb2270fb7` on 25th July 2024:
 - https://github.com/lancaster-university/microbit-v2-samples/commit/d59f07b254f09dd6dbe0a8227e22dd4cb2270fb7
 

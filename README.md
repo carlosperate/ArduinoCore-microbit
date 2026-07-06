@@ -22,28 +22,36 @@ in the future.
 
 ## Installing this Arduino Core
 
-WIP - Explain this process a bit better.
+As this Arduino Core is still in development, normal installation
+instructions would only include a minimal non-functional core.
+This minimal core at the moment is mostly used to install the tools and
+then be replaced with a development version.
 
 1. Run a static server from the repository:
     ```
-    python -m SimpleHTTPServer
+    python -m http.server
     ```
 2. Add this URL to the Arduino IDE Settings > Additional Board Manager URLS:
     ```
     http://localhost:8000/docs/package_carlosperate_microbit_index.json
     ```
-3. Install the Arduino micro:bit Core from the Arduino IDE Boards Manager.
-4. Close the Arduino IDE
-5. Find the Arduino `SKETCHBOOK` directory, which is the Operating System
-    dependent:
+3. Install the "BBC micro:bit boards" core from the Arduino IDE Boards Manager.
+4. Ensure the Arduino IDE is closed.
+5. Find the Arduino `SKETCHBOOK` directory, which is Operating System dependent:
     - Windows: `%USERPROFILE%\Documents\Arduino`
     - macOS: `~/Documents/Arduino`
     - Linux: `~/Arduino`
-6. Open the terminal at the `SKETCHBOOK` directory and git clone
-    (with submodules) into a specific subdirectory:
-    ```
-    git clone https://github.com/carlosperate/ArduinoCore-Template.git hardware/ArduinoCoreTemplate/template-arch/
-    ```
+6. We have two options to add this Arduino Core into the sketchbook.
+    1. Open the terminal at the `SKETCHBOOK` directory and git clone
+    (with submodules) into this path:
+        ```
+        git clone https://github.com/carlosperate/ArduinoCore-microbit.git --recurse-submodules hardware/carlosperate/microbit/
+        ```
+    2. Clone the project in your preferred location, and then create a symlink:
+        ```
+        mkdir -p <sketchbook-path>/hardware/carlosperate
+        ln -s <path-to-cloned-repo> <sketchbook-path>/hardware/carlosperate/microbit
+        ```
 7. Reopen the Arduino IDE
 
 
