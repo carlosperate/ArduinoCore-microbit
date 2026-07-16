@@ -255,23 +255,28 @@ list(APPEND SOURCE_FILES ${C_FILES})
 list(APPEND SOURCE_FILES ${CC_FILES})
 
 # TODO: (Arduino Core Edit) Add Arduino files to the build from CLI set values
-if("${ARDUINO_SKETCH}" STRGREATER "")
-    RECURSIVE_FIND_FILE(ARDUINO_SKETCH_FILES_C "${ARDUINO_SKETCH}" "*.c")
-    RECURSIVE_FIND_FILE(ARDUINO_SKETCH_FILES_CPP "${ARDUINO_SKETCH}" "*.cpp")
-    list(APPEND SOURCE_FILES ${ARDUINO_SKETCH_FILES_C})
-    list(APPEND SOURCE_FILES ${ARDUINO_SKETCH_FILES_CPP})
-    list(APPEND INCLUDE_DIRS ${ARDUINO_SKETCH})
-endif()
+# Platform-bundled libraries are added by glob, not via the manifest: the CLI only
+# detects a library when its header is missing from the detection preprocessor run,
+# and CODAL's driver-models dir shadows some canonical names (SPI.h, also I2C.h,
+# Serial.h, Timer.h), so e.g. the bundled SPI library is never detected
 if("${ARDUINO_LIBRARIES}" STRGREATER "")
     RECURSIVE_FIND_DIR(ARDUINO_LIBS_HEADERS "${ARDUINO_LIBRARIES}" "*.h")
     RECURSIVE_FIND_FILE(ARDUINO_LIBS_FILES "${ARDUINO_LIBRARIES}" "*.cpp")
     list(APPEND SOURCE_FILES ${ARDUINO_LIBS_FILES})
     list(APPEND INCLUDE_DIRS ${ARDUINO_LIBS_HEADERS})
 endif()
+# The variant include dir must be global: the glob-added bundled library sources
+# include variant headers (pins_arduino.h) and get no per-source manifest includes
 if("${ARDUINO_VARIANT}" STRGREATER "")
     RECURSIVE_FIND_FILE(ARDUINO_VARIANT_FILES "${ARDUINO_VARIANT}" "*.cpp")
     list(APPEND SOURCE_FILES ${ARDUINO_VARIANT_FILES})
     list(APPEND INCLUDE_DIRS ${ARDUINO_VARIANT})
+endif()
+# The manifest already includes source of the sketch, variant and external lib files.
+# List is reconstructed every build because the Arduino's compile recipes always
+# re-run, they don't produce .o files and no-op recipe.ar.pattern doesn't create core.a
+if("${ARDUINO_LIBRARIES_MANIFEST}" STRGREATER "")
+    include("${PROJECT_SOURCE_DIR}/../arduino-manifest/manifest-read.cmake")
 endif()
 if("${F_CPU}" STRGREATER "")
     add_definitions(-DF_CPU=${F_CPU})

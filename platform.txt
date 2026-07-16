@@ -13,6 +13,10 @@ compiler.c.extra_flags=
 compiler.cpp.extra_flags=
 compiler.S.extra_flags=
 
+# Filled in by the Arduino CLI with the archives of "precompiled" Arduino libraries;
+# it must be defined (empty) here for the CLI to expand it in the recipes
+compiler.libraries.ldflags=
+
 ##########################
 # Compiler configuration #
 ##########################
@@ -55,8 +59,12 @@ tools.cmake.cmd.macosx="{tools.cmake.path}/CMake.app/Contents/bin/cmake"
 tools.cmake.cmd.linux="{tools.cmake.path}/bin/cmake"
 tools.cmake.cmd.windows="{tools.cmake.path}/bin/cmake.exe"
 tools.ninja.path={runtime.tools.Ninja-1.11.1.path}
-tools.ninja.cmd="{tools.ninja.path}/ninja"
-tools.ninja.cmd.windows="{tools.ninja.path}/ninja.exe"
+# Unquoted (unlike tools.*.cmd) so it can also be embedded in the CMake configure
+# args as "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}", needed to ensure CMake picks
+# this instead of other ninja executables available on PATH (or fails if there is none)
+tools.ninja.program={tools.ninja.path}/ninja
+tools.ninja.program.windows={tools.ninja.path}/ninja.exe
+tools.ninja.cmd="{tools.ninja.program}"
 
 ###########
 # Recipes #
@@ -77,22 +85,34 @@ preproc.macros.flags={compiler.general.flags} {compiler.codal.flags} {compiler.a
 # If recipe.preproc.macros is not defined, it is automatically generated from recipe.cpp.o.pattern.
 recipe.preproc.macros= "{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} {compiler.cpp.extra_flags} {build.extra_flags} {compiler.codal.includes} {includes} "{source_file}" -o "{preprocessed_file_path}"
 
-# We don't compile with the Arduino build system, we'll use CMake in a hook later on
-recipe.c.o.pattern=echo "recipe.c.o.pattern"
-recipe.cpp.o.pattern=echo "recipe.cpp.o.pattern"
-recipe.S.o.pattern=echo "recipe.S.o.pattern"
-recipe.ar.pattern=echo "recipe.ar.pattern"
+# We don't compile with the Arduino build system, we'll use CMake in a hook later on.
+# Instead, the compile recipes record each source file the Arduino CLI detected (sketch
+# and Arduino libraries, e.g. installed via the Library Manager) plus its include paths
+# into a manifest folder, which the CODAL CMake build then reads (arduino/manifest-read.cmake)
+# to compile and link those files together with everything else.
+build.arduino_manifest={build.path}/arduino-manifest
+recipe.c.o.pattern={tools.cmake.cmd} "-DMANIFEST_DIR={build.arduino_manifest}" -P "{runtime.platform.path}/system/arduino-manifest/manifest-write.cmake" -- "{source_file}" {includes}
+recipe.cpp.o.pattern={tools.cmake.cmd} "-DMANIFEST_DIR={build.arduino_manifest}" -P "{runtime.platform.path}/system/arduino-manifest/manifest-write.cmake" -- "{source_file}" {includes}
+recipe.S.o.pattern={tools.cmake.cmd} "-DMANIFEST_DIR={build.arduino_manifest}" -P "{runtime.platform.path}/system/arduino-manifest/manifest-write.cmake" -- "{source_file}" {includes}
+# Deliberate no-op, core objects are compiled by the CODAL CMake build via manifest.
+# If this step was ever implemented here, subsequent builds would skip compiling unchanged
+# core files, leaving them out of the manifest and break the CODAL CMake build.
+recipe.ar.pattern=echo "Core archiving skipped (CODAL CMake compiles the core)"
 
-recipe.hooks.libraries.prebuild.1.pattern=echo "hooks.libraries"
+# The linking is done by CMake/Ninja in the postlink hooks; this recipe only records the
+# link flags of "precompiled" Arduino libraries (empty unless such a library is used)
+recipe.c.combine.pattern={tools.cmake.cmd} "-DMANIFEST_DIR={build.arduino_manifest}" -DENTRY_TYPE=ldflags -P "{runtime.platform.path}/system/arduino-manifest/manifest-write.cmake" -- {compiler.libraries.ldflags}
 
-recipe.c.combine.pattern=echo "recipe.c.combine.pattern"
-
-# First create the CODAL build files before the Arduino build system starts preprocessing
+# Create the CODAL build files before the Arduino build system starts preprocessing
 # This is to ensure codal_extra_definitions.h and codal_extra_definitions_new.h are created
-recipe.hooks.prebuild.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
-# The first time CODAL build system was run the Arduino files were not yet placed in the build folder
-# by the preprocesor, so run it again at linking stage and add to the args the paths to the newly created files
-recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DF_CPU={build.f_cpu}" "-DARDUINO={runtime.ide.version}" "-DARDUINO_BOARD=ARDUINO_{build.board}" "-DARDUINO_ARCH=ARDUINO_ARCH_{build.arch}" "-DARDUINO_SKETCH={build.path}/sketch" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
+# Runs before the Arduino manifest is cleared (prebuild.2), as it prunes ninja outputs no
+# longer in the build, so it must still see the previous build's manifest sources to keep them
+recipe.hooks.prebuild.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
+# Then clear the manifest of any previous build before the compile recipes repopulate it
+recipe.hooks.prebuild.2.pattern={tools.cmake.cmd} -E rm -rf "{build.arduino_manifest}"
+# The first time the CODAL build system is run the Arduino manifest is not yet populated
+# by the compile recipes, so run it again at linking stage with the manifest and Arduino defines
+recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}" "-DF_CPU={build.f_cpu}" "-DARDUINO={runtime.ide.version}" "-DARDUINO_BOARD=ARDUINO_{build.board}" "-DARDUINO_ARCH=ARDUINO_ARCH_{build.arch}" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" "-DARDUINO_LIBRARIES_MANIFEST={build.arduino_manifest}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
 # And finally do the real compilation as a second post link hook
 recipe.hooks.linking.postlink.2.pattern={tools.ninja.cmd} -C "{build.path}/codal/"
 

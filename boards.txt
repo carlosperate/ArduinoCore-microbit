@@ -7,6 +7,13 @@ microbit_v2.vid.0=0x0d28
 microbit_v2.pid.0=0x0204
 
 microbit_v2.build.mcu=cortex-m4
+# FPU flags not used for compilation (CODAL CMake owns those), but arduino-cli reads
+# these to pick a "precompiled" library's archive subfolder, e.g. src/cortex-m4/fpv4-sp-d16-softfp/.
+# Its fallback of scanning recipe.cpp.o.pattern for -mfpu=/-mfloat-abi= can't find anything
+# as this core doesn't configure it.
+# The fpu and float-abi values must match cpu_opts in CODAL's target-locked.json.
+microbit_v2.build.fpu=fpv4-sp-d16
+microbit_v2.build.float-abi=softfp
 microbit_v2.build.f_cpu=64000000
 microbit_v2.build.board=BBC_MICROBIT_V2
 microbit_v2.build.core=microbit
