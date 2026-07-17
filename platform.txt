@@ -20,6 +20,7 @@ compiler.libraries.ldflags=
 ##########################
 # Compiler configuration #
 ##########################
+# TODO: The compiler has its version in the path, should be updated to decouple the version from the path
 compiler.path={runtime.tools.arm-none-eabi-gcc-7-2017q4.path}/bin/
 compiler.cpp.cmd=arm-none-eabi-g++
 compiler.c.cmd=arm-none-eabi-gcc
@@ -54,6 +55,7 @@ compiler.general.flags=-mcpu={build.mcu} -mthumb -c {compiler.warning_flags} -st
 #########################
 # Configure Build Tools #
 #########################
+# TODO: The bundled tools have the version in the path, should be updated to decouple the version from the path
 tools.cmake.path={runtime.tools.CMake-3.24.2.path}
 tools.cmake.cmd.macosx="{tools.cmake.path}/CMake.app/Contents/bin/cmake"
 tools.cmake.cmd.linux="{tools.cmake.path}/bin/cmake"
@@ -97,7 +99,7 @@ recipe.S.o.pattern={tools.cmake.cmd} "-DMANIFEST_DIR={build.arduino_manifest}" -
 # Deliberate no-op, core objects are compiled by the CODAL CMake build via manifest.
 # If this step was ever implemented here, subsequent builds would skip compiling unchanged
 # core files, leaving them out of the manifest and break the CODAL CMake build.
-recipe.ar.pattern=echo "Core archiving skipped (CODAL CMake compiles the core)"
+recipe.ar.pattern={tools.cmake.cmd} -E echo "Core archiving skipped (CODAL CMake compiles the core)"
 
 # The linking is done by CMake/Ninja in the postlink hooks; this recipe only records the
 # link flags of "precompiled" Arduino libraries (empty unless such a library is used)
@@ -117,8 +119,8 @@ recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path
 recipe.hooks.linking.postlink.2.pattern={tools.ninja.cmd} -C "{build.path}/codal/"
 
 # Now that CMake has built everything, create the hex and bin files from the ELF file
-recipe.objcopy.bin.pattern={compiler.objcopy.cmd} -O binary "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.bin"
-recipe.objcopy.hex.pattern={compiler.objcopy.cmd} -O ihex  "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.hex"
+recipe.objcopy.bin.pattern={compiler.path}{compiler.objcopy.cmd} -O binary "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.bin"
+recipe.objcopy.hex.pattern={compiler.path}{compiler.objcopy.cmd} -O ihex  "{build.path}/codal/MICROBIT" "{build.path}/{build.project_name}.hex"
 
 ##################
 # OpenOCD Config #
