@@ -41,6 +41,14 @@ class Uart : public HardwareSerial {
     int available();
 
     /**
+     * Get the free space in the TX buffer, i.e. the number of bytes that can
+     * be queued for sending.
+     *
+     * @return Number of bytes of free space in the TX buffer.
+     */
+    int availableForWrite();
+
+    /**
      * Get a copy of the next byte from the read (RX) buffer without
      * removing it.
      *
@@ -91,6 +99,11 @@ class Uart : public HardwareSerial {
      * @endcode
      */
     operator bool();
+
+  private:
+    // One-byte pushback cache for peek() (CODAL has no native peek).
+    // Holds a value of 0-255 when a byte has been peeked, or < 0 when empty.
+    int peeked = -1;
 };
 
 }  // namespace arduino

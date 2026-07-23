@@ -154,16 +154,16 @@ Extra Analog I/O (not available in all Arduino cores):
 ### Serial
 - [x] `if(Serial)`
 - [x] `available()`
-- [ ] `availableForWrite()`
+- [x] `availableForWrite()`
 - [x] `begin()`
-    - [ ] `config` parameter not yet implemented
+    - [x] `config` parameter (only `SERIAL_8N1` supported; other configs panic)
 - [ ] `end()`
 - [x] `find()` via ArduinoCore-API
 - [x] `findUntil()` via ArduinoCore-API
-- [ ] `flush()`
+- [x] `flush()`
 - [x] `parseFloat()` via ArduinoCore-API
 - [x] `parseInt()` via ArduinoCore-API
-- [ ] `peek()`
+- [x] `peek()`
 - [x] `print()` via ArduinoCore-API
 - [x] `println()` via ArduinoCore-API
 - [x] `read()`
