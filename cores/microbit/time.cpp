@@ -18,6 +18,22 @@ void delay(unsigned long ms) {
 }
 
 /**
+ * Cooperatively hand the CPU to the CODAL fiber scheduler.
+ *
+ * Arduino code that busy-waits calls yield() so other cooperative tasks get a
+ * turn. Even though the core spawns no fibers of its own, many micro:bit
+ * features (display refresh, message bus, idle housekeeping) run in other
+ * fibers, so yielding keeps them alive during a wait. Mirrors how delay()
+ * defers to the scheduler.
+ *
+ * Weak so a sketch or scheduler library can override it, as the AVR/SAMD/
+ * renesas cores allow.
+ */
+__attribute__((weak)) void yield(void) {
+    codal::schedule();
+}
+
+/**
  * Like delay(), with with microseconds instead of milliseconds.
  *
  * The CODAL call is a busy wait with a timer based delay.
