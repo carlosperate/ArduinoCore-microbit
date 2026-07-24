@@ -83,8 +83,8 @@ https://www.arduino.cc/reference/en/ :
 Extra Analog I/O (not available in all Arduino cores):
 - [ ] `analogReadResolution()`
     - Will not be implement unless requested/necessary
-- [NA] `analogWriteResolution()`
-    - There is no DAC, so this function is not applicable
+- [ ] `analogWriteResolution()`
+    - Should set the PWM resolution (currently fixed 10-bit)
 
 ### Advanced I/O
 - [x] `tone()` (untested)
@@ -122,7 +122,7 @@ Extra Analog I/O (not available in all Arduino cores):
 - [x] `isControl()` via ArduinoCore-API
 - [x] `isDigit()` via ArduinoCore-API
 - [x] `isGraph()` via ArduinoCore-API
-- [x] `isHexadecimalDigit()`
+- [x] `isHexadecimalDigit()` via ArduinoCore-API
 - [x] `isLowerCase()` via ArduinoCore-API
 - [x] `isPrintable()` via ArduinoCore-API
 - [x] `isPunct()` via ArduinoCore-API
@@ -186,15 +186,14 @@ The SPI library has been created, but it is currently untested.
 - [x] `end()`
 - [x] `transfer()`
 - [x] `transfer16()`
-- [x] `usingInterrupt()` (blank implementation as it's used it's not needed)
-- [x] `notusingInterrupt()` (blank implementation as it's used it's not needed)
+- [x] `usingInterrupt()` (blank implementation as it's not needed)
+- [x] `notUsingInterrupt()` (blank implementation as it's not needed)
 - [N/A] `setBitOrder()` (Deprecated by Arduino, should use SPISettings instead)
 - [N/A] `setClockDivider()` (Deprecated by Arduino, should use SPISettings instead)
 - [N/A] `setDataMode()` (Deprecated by Arduino, should use SPISettings instead)
 
-
 ### Wire
-The Wire/TwoWrie/I2C library has been created, but it is currently untested.
+The Wire/TwoWire/I2C library has been created, but it is currently untested.
 
 - [x] `begin()`
 - [x] `end()`
@@ -216,12 +215,60 @@ also out of scope as there is a built-in, non-configurable timeout already:
 - [N/A] `clearWireTimeoutFlag()`
 - [N/A] `getWireTimeoutFlag()`
 
+### Print
+Abstract base class providing the print interface for `Serial`, `Wire`, `SPI`,
+and other output classes.
+
+- [x] `write()` via ArduinoCore-API
+- [x] `print()` via ArduinoCore-API
+- [x] `println()` via ArduinoCore-API
+- [x] `flush()` via ArduinoCore-API
+
+### Stream
+Abstract base class extending `Print` for character-based streams (`Serial`,
+`Wire`, etc.).
+
+- [x] `available()` (implemented by the derived classes)
+- [x] `read()` (implemented by the derived classes)
+- [x] `peek()` (implemented by the derived classes)
+- [x] `flush()` (inherited from `Print`)
+- [x] `find()` via ArduinoCore-API
+- [x] `findUntil()` via ArduinoCore-API
+- [x] `parseInt()` via ArduinoCore-API
+- [x] `parseFloat()` via ArduinoCore-API
+- [x] `readBytes()` via ArduinoCore-API
+- [x] `readBytesUntil()` via ArduinoCore-API
+- [x] `readString()` via ArduinoCore-API
+- [x] `readStringUntil()` via ArduinoCore-API
+- [x] `setTimeout()` via ArduinoCore-API
+- [x] `getTimeout()` via ArduinoCore-API
+
 ### USB
 There is no direct USB access from the microcontroller running the Arduino code
 (USB functionality is in a different on-board microcontroller), so this is
 out of scope:
 - [N/A] `Keyboard`
 - [N/A] `Mouse`
+
+### WiFi
+There is no on-board WiFi hardware on the micro:bit, so this is out of scope.
+
+### Constants
+- [x] `HIGH` / `LOW` via ArduinoCore-API
+- [x] `INPUT` / `OUTPUT` / `INPUT_PULLUP` via ArduinoCore-API
+- [x] `LSBFIRST` / `MSBFIRST` via ArduinoCore-API
+- [N/A] `LED_BUILTIN`
+    - Not defined; the micro:bit has a 5x5 LED matrix instead of a single LED
+
+### Data Types
+Only the Arduino-specific data types are listed here. The other types listed
+in the Arduino Language Reference (`int`, `char`, `float`, ...) are provided
+by the compiler.
+
+- [x] `String` via ArduinoCore-API
+- [x] `boolean` via ArduinoCore-API
+- [x] `byte` via ArduinoCore-API
+- [x] `word` via ArduinoCore-API
 
 ### Utilities
 - [ ] `PROGMEM`
@@ -231,4 +278,7 @@ out of scope:
 - [ ] `portInputRegister`
 - [ ] `portModeRegister`
 - [ ] `digitalPinHasPWM`
-- more?
+- [ ] `attachInterruptParam()` (declared via ArduinoCore-API, implementation in core)
+- [x] `yield()` (declared via ArduinoCore-API, implementation in core)
+- [x] `isPinDigital()` / `isPinAnalog()` / `isPinPwm()` (micro:bit variant helpers)
+- [x] `Printable` (class provided via ArduinoCore-API; not in the reference docs)
