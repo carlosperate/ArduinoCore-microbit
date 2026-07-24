@@ -42,7 +42,7 @@
             {
               "packager": "carlosperate",
               "name": "Ninja",
-              "version": "1.11.1"
+              "version": "1.13.1"
             }
           ]
         }
@@ -91,35 +91,42 @@
         },
         {
           "name": "Ninja",
-          "version": "1.11.1",
+          "version": "1.13.1",
           "systems": [
             {
               "host": "x86_64-mingw32",
-              "url": "https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-win.zip",
-              "archiveFileName": "ninja-win.zip",
-              "checksum": "SHA-256:524b344a1a9a55005eaf868d991e090ab8ce07fa109f1820d40e74642e289abc",
-              "size": "285922"
+              "url": "https://github.com/xpack-dev-tools/ninja-build-xpack/releases/download/v1.13.1-1/xpack-ninja-build-1.13.1-1-win32-x64.zip",
+              "archiveFileName": "xpack-ninja-build-1.13.1-1-win32-x64.zip",
+              "checksum": "SHA-256:e14c3879dc5d6d4d69e89da5e8c9f3e7ca2c37194283631e56f6b3d90cad7af4",
+              "size": "525473"
             },
             {
               "host": "x86_64-apple-darwin",
-              "url": "https://www.dropbox.com/s/4huuq7pz8kotrll/ninja-1.11.1-macuniversal.zip?dl=1",
-              "archiveFileName": "ninja-1.11.1-macuniversal.zip",
-              "checksum": "SHA-256:373adc0b1f634216f208c72d842b5d75566f861e7ed75dac32d352cfa8b7aa37",
-              "size": "277522"
+              "url": "https://github.com/xpack-dev-tools/ninja-build-xpack/releases/download/v1.13.1-1/xpack-ninja-build-1.13.1-1-darwin-x64.tar.gz",
+              "archiveFileName": "xpack-ninja-build-1.13.1-1-darwin-x64.tar.gz",
+              "checksum": "SHA-256:09283520150f73da15afa7e20aa92bf72361614c352719c12228e9c226f14407",
+              "size": "590099"
             },
             {
               "host": "arm64-apple-darwin",
-              "url": "https://www.dropbox.com/s/4huuq7pz8kotrll/ninja-1.11.1-macuniversal.zip?dl=1",
-              "archiveFileName": "ninja-1.11.1-macuniversal.zip",
-              "checksum": "SHA-256:373adc0b1f634216f208c72d842b5d75566f861e7ed75dac32d352cfa8b7aa37",
-              "size": "277522"
+              "url": "https://github.com/xpack-dev-tools/ninja-build-xpack/releases/download/v1.13.1-1/xpack-ninja-build-1.13.1-1-darwin-arm64.tar.gz",
+              "archiveFileName": "xpack-ninja-build-1.13.1-1-darwin-arm64.tar.gz",
+              "checksum": "SHA-256:9a84d173c87d2666a4410fdfdd99e2ef8ea349ab036b27f9c691ce8b9273cdb8",
+              "size": "559603"
             },
             {
               "host": "x86_64-pc-linux-gnu",
-              "url": "https://github.com/ninja-build/ninja/releases/download/v1.11.1/ninja-linux.zip",
-              "archiveFileName": "ninja-linux.zip",
-              "checksum": "SHA-256:b901ba96e486dce377f9a070ed4ef3f79deb45f4ffe2938f8e7ddc69cfb3df77",
-              "size": "119463"
+              "url": "https://github.com/xpack-dev-tools/ninja-build-xpack/releases/download/v1.13.1-1/xpack-ninja-build-1.13.1-1-linux-x64.tar.gz",
+              "archiveFileName": "xpack-ninja-build-1.13.1-1-linux-x64.tar.gz",
+              "checksum": "SHA-256:e48e5ff6e3db4844670b74a7adc1270d8bc1dc661e2a36a134daa199a9b07c10",
+              "size": "1139825"
+            },
+            {
+              "host": "aarch64-linux-gnu",
+              "url": "https://github.com/xpack-dev-tools/ninja-build-xpack/releases/download/v1.13.1-1/xpack-ninja-build-1.13.1-1-linux-arm64.tar.gz",
+              "archiveFileName": "xpack-ninja-build-1.13.1-1-linux-arm64.tar.gz",
+              "checksum": "SHA-256:8a464d98e8845bbde0dfe04b170983bceba69cc00c3904940ab7cf3f3e7d295e",
+              "size": "1109941"
             }
           ]
         }

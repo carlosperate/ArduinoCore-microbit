@@ -60,12 +60,13 @@ tools.cmake.path={runtime.tools.CMake-3.24.2.path}
 tools.cmake.cmd.macosx="{tools.cmake.path}/CMake.app/Contents/bin/cmake"
 tools.cmake.cmd.linux="{tools.cmake.path}/bin/cmake"
 tools.cmake.cmd.windows="{tools.cmake.path}/bin/cmake.exe"
-tools.ninja.path={runtime.tools.Ninja-1.11.1.path}
+tools.ninja.path={runtime.tools.Ninja-1.13.1.path}
 # Unquoted (unlike tools.*.cmd) so it can also be embedded in the CMake configure
 # args as "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}", needed to ensure CMake picks
 # this instead of other ninja executables available on PATH (or fails if there is none)
-tools.ninja.program={tools.ninja.path}/ninja
-tools.ninja.program.windows={tools.ninja.path}/ninja.exe
+# The xpack Ninja archives place the binary under bin/ (like arm-none-eabi-gcc).
+tools.ninja.program={tools.ninja.path}/bin/ninja
+tools.ninja.program.windows={tools.ninja.path}/bin/ninja.exe
 tools.ninja.cmd="{tools.ninja.program}"
 
 ###########

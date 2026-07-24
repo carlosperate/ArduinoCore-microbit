@@ -1,7 +1,7 @@
 # Arduino Core for BBC micro:bit based on CODAL
 
-This an Arduino Core for the BBC micro:bit using the official C++ HAL
-(Hardware Abstraction Layer).
+This is an Arduino Core for the BBC micro:bit built on top of the DAL/CODAL
+C++ HAL (Hardware Abstraction Layer).
 
 This enables the usage of Arduino IDE and Arduino libraries, together with
 the DAL/CODAL `uBit` object API:
@@ -12,13 +12,12 @@ https://lancaster-university.github.io/microbit-docs/
 
 The HAL for the BBC micro:bit V1 is called
 [DAL (Device Abstraction Layer)](https://github.com/lancaster-university/microbit-samples/),
-and the micro:bit V2 uses its successor 
+and the micro:bit V2 uses its successor
 [CODAL (Component Oriented Device Abstraction Layer)](https://github.com/lancaster-university/microbit-v2-samples/),
 which has a compatible user API.
 
-This project is still in early stages and will first be implemented using
-CODAL for micro:bit V2, with the aim to add micro:bit V1 DAL compatibility
-in the future.
+This project is still in early stages and will first implement the micro:bit V2
+CODAL version, with the aim to add micro:bit V1 DAL compatibility in the future.
 
 ## Installing this Arduino Core
 
@@ -27,21 +26,17 @@ instructions would only include a minimal non-functional core.
 This minimal core at the moment is mostly used to install the tools and
 then be replaced with a development version.
 
-1. Run a static server from the repository:
+1. Add this URL to the `Arduino IDE Settings` > `Additional Board Manager URLs`:
     ```
-    python -m http.server
+    https://carlosperate.github.io/ArduinoCore-microbit/package_carlosperate_microbit_index.json
     ```
-2. Add this URL to the Arduino IDE Settings > Additional Board Manager URLS:
-    ```
-    http://localhost:8000/docs/package_carlosperate_microbit_index.json
-    ```
-3. Install the "BBC micro:bit boards" core from the Arduino IDE Boards Manager.
-4. Ensure the Arduino IDE is closed.
-5. Find the Arduino `SKETCHBOOK` directory, which is Operating System dependent:
+2. Install the "BBC micro:bit boards" core from the Arduino IDE Boards Manager.
+3. Ensure the Arduino IDE is closed.
+4. Find the Arduino `SKETCHBOOK` directory, which is Operating System dependent:
     - Windows: `%USERPROFILE%\Documents\Arduino`
     - macOS: `~/Documents/Arduino`
     - Linux: `~/Arduino`
-6. We have two options to add this Arduino Core into the sketchbook.
+5. We have two options to add this Arduino Core into the sketchbook.
     1. Open the terminal at the `SKETCHBOOK` directory and git clone
     (with submodules) into this path:
         ```
@@ -52,7 +47,7 @@ then be replaced with a development version.
         mkdir -p <sketchbook-path>/hardware/carlosperate
         ln -s <path-to-cloned-repo> <sketchbook-path>/hardware/carlosperate/microbit
         ```
-7. Reopen the Arduino IDE
+6. Reopen the Arduino IDE
 
 
 ## Arduino IDE minimum version
@@ -65,8 +60,8 @@ of the Arduino IDE, so the currently minimum version is:
 
 ## Feature List
 
-This is a list indicate what's been implemented so far, as listed in
-https://www.arduino.cc/reference/en/ :
+This is a list to indicate what has been implemented so far from the
+official Arduino reference API https://www.arduino.cc/reference/en/ :
 
 ### Digital I/O
 - [x] `digitalRead()`
