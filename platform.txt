@@ -106,16 +106,20 @@ recipe.ar.pattern={tools.cmake.cmd} -E echo "Core archiving skipped (CODAL CMake
 # link flags of "precompiled" Arduino libraries (empty unless such a library is used)
 recipe.c.combine.pattern={tools.cmake.cmd} "-DMANIFEST_DIR={build.arduino_manifest}" -DENTRY_TYPE=ldflags -P "{runtime.platform.path}/system/arduino-manifest/manifest-write.cmake" -- {compiler.libraries.ldflags}
 
+# CODAL's toolchain.cmake locates arm-none-eabi-gcc via find_program(),
+# with this flag we add an extra path with higher priority
+codal.toolchain.flags="-DCMAKE_PROGRAM_PATH={compiler.path}"
+
 # Create the CODAL build files before the Arduino build system starts preprocessing
 # This is to ensure codal_extra_definitions.h and codal_extra_definitions_new.h are created
 # Runs before the Arduino manifest is cleared (prebuild.2), as it prunes ninja outputs no
 # longer in the build, so it must still see the previous build's manifest sources to keep them
-recipe.hooks.prebuild.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
+recipe.hooks.prebuild.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}" {codal.toolchain.flags} -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
 # Then clear the manifest of any previous build before the compile recipes repopulate it
 recipe.hooks.prebuild.2.pattern={tools.cmake.cmd} -E rm -rf "{build.arduino_manifest}"
 # The first time the CODAL build system is run the Arduino manifest is not yet populated
 # by the compile recipes, so run it again at linking stage with the manifest and Arduino defines
-recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}" "-DF_CPU={build.f_cpu}" "-DARDUINO={runtime.ide.version}" "-DARDUINO_BOARD=ARDUINO_{build.board}" "-DARDUINO_ARCH=ARDUINO_ARCH_{build.arch}" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" "-DARDUINO_LIBRARIES_MANIFEST={build.arduino_manifest}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
+recipe.hooks.linking.postlink.1.pattern={tools.cmake.cmd} -S "{build.system.path}/codal/" -B "{build.path}/codal/" "-DCMAKE_MAKE_PROGRAM={tools.ninja.program}" {codal.toolchain.flags} "-DF_CPU={build.f_cpu}" "-DARDUINO={runtime.ide.version}" "-DARDUINO_BOARD=ARDUINO_{build.board}" "-DARDUINO_ARCH=ARDUINO_ARCH_{build.arch}" "-DARDUINO_LIBRARIES={runtime.platform.path}/libraries" "-DARDUINO_VARIANT={build.variant.path}" "-DARDUINO_LIBRARIES_MANIFEST={build.arduino_manifest}" -DCMAKE_BUILD_TYPE=RelWithDebInfo -G "Ninja"
 # And finally do the real compilation as a second post link hook
 recipe.hooks.linking.postlink.2.pattern={tools.ninja.cmd} -C "{build.path}/codal/"
 
