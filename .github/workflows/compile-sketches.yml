@@ -1,0 +1,121 @@
+name: Compile Test Sketches
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# We configure the arduino-cli sketchbook to this directory, and clone this core
+# into the path required to override the initially installed carlosperate:microbit
+env:
+  ARDUINO_DIRECTORIES_USER: ${{ github.workspace }}/sketchbook
+
+jobs:
+  compile:
+    name: compile (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # macos-14 is arm64, the others all x86_64.
+        os: [ubuntu-22.04, macos-15-intel, macos-14, windows-2022]
+    steps:
+      - name: Checkout core
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+          # Lands in the arduino-cli sketchbook's path so it overrides the installed version
+          path: sketchbook/hardware/carlosperate/microbit
+
+      - name: Apply CODAL patch
+        working-directory: sketchbook/hardware/carlosperate/microbit/system/codal/libraries/codal-microbit-v2
+        run: git apply --ignore-whitespace ../coda-microbit-v2.patch
+
+      - name: Checkout test sketches
+        uses: actions/checkout@v7
+        with:
+          repository: carlosperate/ArduinoCore-TestSketches
+          path: extras/ArduinoCore-TestSketches
+
+      - name: Checkout Arduino IDE built-in examples
+        uses: actions/checkout@v7
+        with:
+          repository: arduino/arduino-examples
+          path: extras/arduino-examples
+
+      # The examples this core cannot build yet
+      - name: Drop unsupported IDE examples
+        shell: bash
+        working-directory: extras/arduino-examples/examples
+        run: |
+          # LED_BUILTIN is deliberately not defined: the micro:bit has a 5x5 LED
+          # matrix instead of a single LED. Re-add if the variant ever picks one.
+          rm -rf 01.Basics/Blink
+          rm -rf 02.Digital/BlinkWithoutDelay
+
+          # Serial1: the micro:bit exposes a single UART, so there is no second
+          # serial port to open.
+          rm -rf 04.Communication/MultiSerial
+          rm -rf 04.Communication/SerialPassthrough
+
+          # pulseIn() is not implemented yet (see README.md "Advanced I/O").
+          rm -rf 06.Sensors/Memsic2125
+          rm -rf 06.Sensors/Ping
+
+          # String(float)/String(double) fail at link time with "undefined
+          # reference to dtostrf" — the vendored ArduinoCore-API calls it but the
+          # core ships no implementation. Fixable in the core; re-add once it links.
+          rm -rf 08.Strings/StringAdditionOperator
+          rm -rf 08.Strings/StringAppendOperator
+          rm -rf 08.Strings/StringConstructors
+
+          # USB HID is out of scope for this core
+          rm -rf 09.USB
+
+          # Need libraries with no nRF52 support.
+          rm -rf 10.StarterKit_BasicKit/p05_ServoMoodIndicator  # Servo.h
+          rm -rf 10.StarterKit_BasicKit/p11_CrystalBall         # LiquidCrystal.h
+          rm -rf 10.StarterKit_BasicKit/p12_KnockLock           # Servo.h
+          rm -rf 10.StarterKit_BasicKit/p13_TouchSensorLamp     # CapacitiveSensor.h
+
+          # AVR-specific: programs another AVR over SPI using its port registers.
+          rm -rf 11.ArduinoISP/ArduinoISP
+
+      # arduino-cli wants an file URL for the local package index, so need to convert the path on Windows
+      - name: Compute package index file URL
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            # cygpath -m yields a forward-slash drive path, e.g. D:/a/repo/repo
+            echo "INDEX_URL=file:///$(cygpath -m "$GITHUB_WORKSPACE")/sketchbook/hardware/carlosperate/microbit/docs/package_carlosperate_microbit_index.json" >> "$GITHUB_ENV"
+          else
+            echo "INDEX_URL=file://${GITHUB_WORKSPACE}/sketchbook/hardware/carlosperate/microbit/docs/package_carlosperate_microbit_index.json" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install Arduino CLI
+        uses: arduino/setup-arduino-cli@v2
+
+      # A release of this core is installed only for its tool dependencies
+      # And the library needed by the external_library test sketch
+      - name: Install platform tools and library
+        shell: bash
+        run: |
+          arduino-cli lib install "SparkFun TMP102 Breakout"
+          arduino-cli core update-index --additional-urls "$INDEX_URL"
+          arduino-cli lib update-index
+          # Install pointing to an empty sketchbook, so that the cloned core is not found and this step skipped.
+          ARDUINO_DIRECTORIES_USER="$RUNNER_TEMP/nosketchbook" arduino-cli core install carlosperate:microbit --additional-urls "$INDEX_URL"
+
+      - name: Compile sketches
+        shell: bash
+        run: |
+          # Every folder under extras/ that contains a .ino file is a sketch to compile.
+          sketch_dirs=$(find extras -name '*.ino' -exec dirname {} \; | sort -u)
+          failed=0
+          for dir in $sketch_dirs; do
+            echo "::group::Compiling $dir"
+            arduino-cli compile --fqbn carlosperate:microbit:microbit_v2 --verbose "$dir" || failed=$((failed + 1))
+            echo "::endgroup::"
+          done
+          echo "$failed sketch/es failed to compile."
+          exit $failed

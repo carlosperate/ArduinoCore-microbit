@@ -1,0 +1,32 @@
+# Arduino Lint checks for Arduino Cores.
+# Currently fails it with 3 errors, all real gaps need fixing:
+#
+# These two needed for the IDE's "Export compiled binary":
+#   PF070  Missing recipe.output.tmp_file in platform.txt
+#   PF072  Missing recipe.output.save_file in platform.txt
+#
+# platform.txt uses the tools.* namespace for ninja as a build tool, but
+# Arduino Lint reads every tools.<name>.* entry as an uploader
+#   PF083  Missing program.pattern for ninja tool(s)
+#
+# It also reports warnings for the missing recipe.size.* recipes (no sketch
+# size reported yet) and for the bundled SPI/Wire libraries having no
+# library.properties or examples, is this normally done by other cores?
+name: Arduino Lint
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Arduino Lint
+        uses: arduino/arduino-lint-action@v3
+        with:
+          project-type: platform
+          compliance: specification
