@@ -260,6 +260,7 @@ list(APPEND SOURCE_FILES ${CC_FILES})
 # and CODAL's driver-models dir shadows some canonical names (SPI.h, also I2C.h,
 # Serial.h, Timer.h), so e.g. the bundled SPI library is never detected
 if("${ARDUINO_LIBRARIES}" STRGREATER "")
+    file(TO_CMAKE_PATH "${ARDUINO_LIBRARIES}" ARDUINO_LIBRARIES)
     RECURSIVE_FIND_DIR(ARDUINO_LIBS_HEADERS "${ARDUINO_LIBRARIES}" "*.h")
     RECURSIVE_FIND_FILE(ARDUINO_LIBS_FILES "${ARDUINO_LIBRARIES}" "*.cpp")
     list(APPEND SOURCE_FILES ${ARDUINO_LIBS_FILES})
@@ -268,6 +269,7 @@ endif()
 # The variant include dir must be global: the glob-added bundled library sources
 # include variant headers (pins_arduino.h) and get no per-source manifest includes
 if("${ARDUINO_VARIANT}" STRGREATER "")
+    file(TO_CMAKE_PATH "${ARDUINO_VARIANT}" ARDUINO_VARIANT)
     RECURSIVE_FIND_FILE(ARDUINO_VARIANT_FILES "${ARDUINO_VARIANT}" "*.cpp")
     list(APPEND SOURCE_FILES ${ARDUINO_VARIANT_FILES})
     list(APPEND INCLUDE_DIRS ${ARDUINO_VARIANT})
@@ -276,6 +278,7 @@ endif()
 # List is reconstructed every build because the Arduino's compile recipes always
 # re-run, they don't produce .o files and no-op recipe.ar.pattern doesn't create core.a
 if("${ARDUINO_LIBRARIES_MANIFEST}" STRGREATER "")
+    file(TO_CMAKE_PATH "${ARDUINO_LIBRARIES_MANIFEST}" ARDUINO_LIBRARIES_MANIFEST)
     include("${PROJECT_SOURCE_DIR}/../arduino-manifest/manifest-read.cmake")
 endif()
 if("${F_CPU}" STRGREATER "")
