@@ -6,6 +6,9 @@ From commit `a38d392c3ff032273663ace9e4aa4ede95f7c220` on 27th Sep 2022:
 Updated to commit `d59f07b254f09dd6dbe0a8227e22dd4cb2270fb7` on 25th July 2024:
 - https://github.com/lancaster-university/microbit-v2-samples/commit/d59f07b254f09dd6dbe0a8227e22dd4cb2270fb7
 
+Updated to commit `04b7089d82af24534f3dcd460a9c343850b60b5d` on 27th July 2026:
+- https://github.com/lancaster-university/microbit-v2-samples/commit/04b7089d82af24534f3dcd460a9c343850b60b5d
+
 Files have been removed as shown in commit `ab0aaff2e8f8848c73d8376702f469d5479aa20c`:
 - https://github.com/carlosperate/ArduinoCore-microbit/commit/ab0aaff2e8f8848c73d8376702f469d5479aa20c
 

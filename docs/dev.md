@@ -74,6 +74,11 @@ In [commit 34280fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/
 - Updated microbit-v2-samples files from commit a38d392 to d59f07b
 - Update codal.json config from `NO_BLE` to `DEVICE_BLE`
 
+In [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+- Updated microbit-v2-samples files from commit [d59f07b](https://github.com/lancaster-university/microbit-v2-samples/commit/d59f07b),
+  to [04b7089](https://github.com/lancaster-university/microbit-v2-samples/commit/04b7089d82af24534f3dcd460a9c343850b60b5d)
+- No changes in the modifications applied so far.
+
 Other future changes will also be reflected here.
 
 ### Submodule Patch
@@ -93,6 +98,8 @@ The instructions to apply it can be found in the
 - Diff the changes between the old and new versions of
   `codal-microbit-v2/target.json` and check if any changes there has an impact
   on platform.txt
+    - Watch out for `show_size`, absent in v0.2.67, which is the only reason the
+      size-reporting code vendored in `utils/cmake/` is currently inactive.
 - The CODAL CMake files from the `microbit-v2-samples` repo can be updated
   when any upstream changes are relevant to this Arduino Core.
     - All the local CMake file changes are surrounded by a
