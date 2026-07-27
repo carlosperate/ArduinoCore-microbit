@@ -74,7 +74,7 @@ In [commit 34280fd](https://github.com/carlosperate/ArduinoCore-microbit/commit/
 - Updated microbit-v2-samples files from commit a38d392 to d59f07b
 - Update codal.json config from `NO_BLE` to `DEVICE_BLE`
 
-In [commit xxx](https://github.com/carlosperate/ArduinoCore-microbit/commit/xxx):
+In [commit abe706697cdfbff6427ad311e7af58b6e2974d80](https://github.com/carlosperate/ArduinoCore-microbit/commit/abe706697cdfbff6427ad311e7af58b6e2974d80):
 - Updated microbit-v2-samples files from commit [d59f07b](https://github.com/lancaster-university/microbit-v2-samples/commit/d59f07b),
   to [04b7089](https://github.com/lancaster-university/microbit-v2-samples/commit/04b7089d82af24534f3dcd460a9c343850b60b5d)
 - No changes in the modifications applied so far.

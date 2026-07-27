@@ -1,4 +1,4 @@
-# Arduino Core for BBC micro:bit based on CODAL
+# Arduino Core for the BBC micro:bit
 
 This is an Arduino Core for the BBC micro:bit built on top of the DAL/CODAL
 C++ HAL (Hardware Abstraction Layer).
@@ -18,6 +18,7 @@ which has a compatible user API.
 
 This project is still in early stages and will first implement the micro:bit V2
 CODAL version, with the aim to add micro:bit V1 DAL compatibility in the future.
+
 
 ## Installing this Arduino Core
 
@@ -57,6 +58,7 @@ of the Arduino IDE, so the currently minimum version is:
 
 - 1.6.6
   - This needs to be confirmed
+
 
 ## Feature List
 
@@ -277,3 +279,15 @@ by the compiler.
 - [x] `yield()` (declared via ArduinoCore-API, implementation in core)
 - [x] `isPinDigital()` / `isPinAnalog()` / `isPinPwm()` (micro:bit variant helpers)
 - [x] `Printable` (class provided via ArduinoCore-API; not in the reference docs)
+
+
+## License
+
+This project is licensed under the [GNU LGPL v2.1 or later](LICENSE).
+
+Vendored/bundled code keeps its own upstream license:
+- `cores/microbit/api/` (ArduinoCore-API): LGPL 2.1 or later
+- CODAL projects `codal-microbit-v2`, `codal-core`, `codal-nrf52`,
+  vendored and modified files in `system/codal/` and `system/codal/utils/`: MIT
+- `system/codal/libraries/codal-microbit-nrf5sdk`: Nordic Semiconductor
+  modified BSD license
